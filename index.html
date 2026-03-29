@@ -34,7 +34,7 @@
                 <span>Nome Completo</span>
                 <div class="input-wrapper">
                     <img src="./Assets/Iconis/user.png">
-                    <input type="text" placeholder="Digite o nome completo" required>
+                    <input type="text" id="nomeInput" placeholder="Digite o nome completo" required>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
                 <span>CPF</span>
                 <div class="input-wrapper">
                     <img src="./Assets/Iconis/driver-license.png">
-                    <input type="text" placeholder="xxx.xxx.xxx-xx" required>
+                    <input type="text" id="cpfInput" placeholder="xxx.xxx.xxx-xx" required>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                 <span>Cidade</span>
                 <div class="input-wrapper">
                     <img src="./Assets/Iconis/location.png">
-                    <input type="text" placeholder="Ex: São Paulo" required>
+                    <input type="text" id="cidadeInput" placeholder="Ex: São Paulo" required>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <span>WhatsApp</span>
                 <div class="input-wrapper">
                     <img src="./Assets/Iconis/phone.png">
-                    <input type="text" placeholder="(00) 00000-0000">
+                    <input type="text" id="telefoneInput" placeholder="(00) 00000-0000">
                 </div>
             </div>
 
@@ -70,6 +70,7 @@
                 <div class="input-wrapper">
                     <img src="./Assets/Iconis/email.png">
                     <input type="email" placeholder="seu@email.com">
+                    <span class="erro" id="erroEmail"></span>
                 </div>
             </div>
 
@@ -114,6 +115,7 @@
                 <div class="input-wrapper">
                     <img src="./Assets/Iconis/icons8-foto-120.png">
                     <input type="text" id="inputPix" placeholder="Digite sua chave">
+                    <span class="erro" id="erroPix"></span>
                 </div>
             </div>
 
@@ -134,6 +136,13 @@
             <img src="/Assets/Iconis/i.png" alt="">
         </div>
     </form>
+
+    <div id="telaSucesso" style="display: none; text-align: center;">
+        <h1>Cadastro realizado 🎉</h1>
+        <p>Obrigado por participar!</p>
+        <p>Seu número da sorte é:</p>
+        <h2 id="numeroSorte" style="color: #814cfc;"></h2>
+    </div>
 
     <script src="/FrontEnd/script.js"></script>
 </body>
