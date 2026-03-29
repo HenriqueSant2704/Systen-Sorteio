@@ -292,4 +292,18 @@ inputPix.addEventListener("input", () => {
 
 /* =================================================================
 
+    Funções de Instrução
+
 ====================================================================*/
+
+function mostrarInstrucoes() {
+
+    document.querySelector('form').style.display = 'none';
+    document.getElementById('areaInstrucoes').style.display = 'block'; 
+}
+
+function voltarParaFormulario() {
+
+    document.getElementById('areaInstrucoes').style.display = 'none';
+    document.querySelector('form').style.display = 'block'; 
+}

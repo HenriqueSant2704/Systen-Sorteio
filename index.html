@@ -132,17 +132,93 @@
             </button>
         </div>
 
-        <div class="instrucao">
+        <div class="instrucao" onclick="mostrarInstrucoes()">
+            <p>Saiba como participar</p>
             <img src="./Assets/Iconis/i.png" alt="Ícone de informação">
         </div>
+
     </form>
 
-    <div id="telaSucesso" style="display: none; text-align: center;">
-        <h1>Cadastro realizado 🎉</h1>
-        <p>Obrigado por participar!</p>
-        <p>Seu número da sorte é:</p>
-        <h2 id="numeroSorte" style="color: #814cfc;"></h2>
+
+    <div id="areaInstrucoes" class="sucesso-container" style="display: none;">
+
+
+        <div class="instrucao-icone-destaque">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </div>
+
+        <h2 class="sucesso-titulo">Como Participar</h2>
+        <p class="sucesso-subtitulo">Siga os passos abaixo para garantir a sua chance no sorteio.</p>
+
+
+        <div class="lista-passos">
+            <div class="passo">
+                <div class="passo-numero">1</div>
+                <div class="passo-texto">Siga a <strong>NETICO</strong> no instagram para concorrer.</div>
+            </div>
+            <div class="passo">
+                <div class="passo-numero">2</div>
+                <div class="passo-texto">Preencha seus dados <strong>corretamente</strong> no formulário.</div>
+            </div>
+            <div class="passo">
+                <div class="passo-numero">3</div>
+                <div class="passo-texto">Guarde o seu <strong>número da sorte</strong> gerado no final.</div>
+            </div>
+        </div>
+
+
+        <button type="button" onclick="voltarParaFormulario()" class="btn-acao-outline">
+            Voltar para o cadastro
+        </button>
+
     </div>
+
+    <div id="telaSucesso" class="sucesso-container" style="display: none;">
+
+        <div class="sucesso-icone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M8 12l3 3 5-5"></path>
+            </svg>
+        </div>
+
+        <h1 class="sucesso-titulo">Tudo Pronto!</h1>
+        <p class="sucesso-subtitulo">Seu cadastro foi confirmado e salvo de forma segura.<br>Guarde seu número com
+            carinho.</p>
+
+        <div class="numero-card">
+            <div class="numero-label">
+                <svg class="icone-trofeu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                    <path d="M4 22h16"></path>
+                    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                    <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                </svg>
+                O SEU NÚMERO DA SORTE
+            </div>
+            <h2 id="numeroSorte" class="numero-valor"></h2>
+        </div>
+
+        <div class="atencao">
+            <img src="./Assets/Iconis/social.png" alt="">
+            <p>ATENÇÃO: Pedimos para que todas os participantes guardem seus números, pois eles serão necessários
+                para
+                resgatar os prêmios caso sejam sorteados.
+            </p>
+        </div>
+    </div>
+    </form>
+
+
 
     <script src="./FrontEnd/script.js"></script>
 </body>
