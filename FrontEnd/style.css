@@ -1,0 +1,322 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #121214;
+    background-image: radial-gradient(circle at 50% 0%, rgba(138, 43, 226, 0.20) 0%, transparent 60%);
+    color: #f8fafc; 
+    
+}
+
+form {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    border-radius: 32px;
+    box-sizing: border-box;
+    background-color: rgba(26, 26, 32, 0.589); 
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(55, 7, 131, 0.507);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.507);
+}
+
+.etapa-form {
+    width: 100%;
+    display: none;
+}
+
+.etapa-form.ativa {
+    display: block;
+}
+
+.logo {
+    width: 140px;
+    margin-bottom: 15px;
+    object-fit: contain;
+}
+
+.titulos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+h1 {
+    margin: 0 0 10px 0;
+    font-size: 30px;
+    font-weight: 800;
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p {
+    text-align: center;
+    color: #94a3b8; 
+    font-size: 15px;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.barra-progresso {
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.linha {
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 12px;
+    left: 0;
+}
+
+.linha-preenchida {
+    height: 100%;
+    width: 0%;
+    background: #814cfc;
+    transition: 0.4s ease;
+}
+
+.etapas {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.etapa {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #1f1f23;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #94a3b8;
+    transition: 0.3s;
+}
+
+.etapa.ativa {
+    background: #814cfc;
+    color: white;
+    box-shadow: 0 0 10px rgba(129, 76, 252, 0.6);
+}
+
+.caixainput {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+
+
+.caixainput span {
+    font-size: 14px;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper img {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    filter: brightness(1.5) contrast(1.1);
+    transition: 0.3s ease;
+}
+
+.input-wrapper input {
+    padding-left: 42px; 
+}
+
+.input-wrapper:focus-within img {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(91%) saturate(1200%) hue-rotate(245deg) brightness(100%) contrast(101%);
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+    color: white;
+    box-sizing: border-box;
+    background-color: rgba(18, 18, 20, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+
+input:focus {
+    border-color: #814cfc; 
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+
+input::placeholder {
+    color: #475569;
+}
+
+.botoes {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.botoes button {
+    flex: 1;
+}
+
+.btn-voltar {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #94a3b8;
+}
+
+.btn-voltar:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #7c3aed, #c026d3);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+}
+
+
+button:hover {
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+    background: linear-gradient(to right, #8b5cf6, #d946ef);
+}
+
+button img {
+    width: 18px;
+    margin-left: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-proximo.finalizar {
+    background: linear-gradient(to right, #059669, #0D9487);
+    box-shadow: 0 4px 15px #059669;
+}
+
+.btn-proximo.finalizar:hover {
+    background: linear-gradient(to right, #09ac78, #0ea899);
+}
+
+.opcoes-pix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.opcao {
+    background: rgba(18,18,20,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.opcao img {
+    width: 20px;
+    opacity: 0.7;
+}
+
+.opcao span {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.opcao.ativa {
+    border-color: #814cfc;
+    box-shadow: 0 0 10px rgba(129, 76, 252, 0.3);
+}
+
+.opcao.ativa span {
+    color: white;
+}
+
+.opcao.ativa img {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(91%) saturate(1200%) hue-rotate(245deg) brightness(100%) contrast(101%);
+    opacity: 1;
+}
+
+.caixainput-span {
+    font-size: 14px;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-left: 4px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+
+.instrucao {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 12px;
+}
+
+.instrucao img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-3px);
+
+    }
+}

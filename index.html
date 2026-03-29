@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/FrontEnd/style.css    ">
+    <title>Sorteio Netico</title>
+</head>
+
+<body>
+    <form action="">
+        <div class="titulos">
+            <img src="/Assets/imgs/netico-logo.png" alt="Logo da Netico" class="logo">
+            <h1>Sorteio Oficial</h1>
+            <p>Cadastre-se agora para receber seu número da sorte e concorrer a prêmios incríveis.</p>
+        </div>
+
+        <div class="barra-progresso">
+            <div class="linha">
+                <div class="linha-preenchida"></div>
+            </div>
+
+            <div class="etapas">
+                <div class="etapa ativa">1</div>
+                <div class="etapa">2</div>
+                <div class="etapa">3</div>
+            </div>
+        </div>
+
+        <!-- ETAPA 1 -->
+        <div class="etapa-form ativa">
+            <div class="caixainput">
+                <span>Nome Completo</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/user.png">
+                    <input type="text" placeholder="Digite o nome completo" required>
+                </div>
+            </div>
+
+            <div class="caixainput">
+                <span>CPF</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/driver-license.png">
+                    <input type="text" placeholder="xxx.xxx.xxx-xx" required>
+                </div>
+            </div>
+
+            <div class="caixainput">
+                <span>Cidade</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/location.png">
+                    <input type="text" placeholder="Ex: São Paulo" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 2 -->
+        <div class="etapa-form">
+            <div class="caixainput">
+                <span>WhatsApp</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/phone.png">
+                    <input type="text" placeholder="(00) 00000-0000">
+                </div>
+            </div>
+
+            <div class="caixainput">
+                <span>Email</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/email.png">
+                    <input type="email" placeholder="seu@email.com">
+                </div>
+            </div>
+
+            <div class="caixainput">
+                <span>Instagram</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/instagram.png">
+                    <input type="text" placeholder="@seuinstagram">
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 3 -->
+        <div class="etapa-form">
+
+            <span class="caixainput-span">Tipo de chave</span>
+
+            <div class="opcoes-pix">
+                <div class="opcao ativa" data-tipo="email">
+                    <img src="./Assets/Iconis/email.png">
+                    <span>E-mail</span>
+                </div>
+
+                <div class="opcao" data-tipo="aleatoria">
+                    <img src="./Assets/Iconis/passkey.png">
+                    <span>Aleatória</span>
+                </div>
+
+                <div class="opcao" data-tipo="cpf">
+                    <img src="./Assets/Iconis/driver-license.png">
+                    <span>CPF</span>
+                </div>
+
+                <div class="opcao" data-tipo="telefone">
+                    <img src="./Assets/Iconis/phone.png">
+                    <span>Telefone</span>
+                </div>
+            </div>
+
+            <div class="caixainput">
+                <span>Sua Chave PIX</span>
+                <div class="input-wrapper">
+                    <img src="./Assets/Iconis/icons8-foto-120.png">
+                    <input type="text" id="inputPix" placeholder="Digite sua chave">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="botoes">
+            <button type="button" id="voltarButton" class="btn-voltar">
+                Voltar
+            </button>
+
+            <button type="submit" id="proximoButton" class="btn-proximo">
+                <span id="textoBotao">Continuar</span>
+                <img id="iconeBotao" src="/Assets/Iconis/right-arrow.png">
+            </button>
+        </div>
+
+        <div class="instrucao">
+            <img src="/Assets/Iconis/i.png" alt="">
+        </div>
+    </form>
+
+    <script src="/FrontEnd/script.js"></script>
+</body>
+
+</html>
