@@ -582,3 +582,46 @@ button img {
     line-height: 1.4;
     font-weight: 500;
 }
+
+/*======================================================================
+ 
+    Estilos para telas menores 
+
+===========================================================================*/
+
+
+@media (max-width: 570px) {
+form{
+    width: 85%;
+}
+
+.titulos {
+    gap: 15px;
+}
+
+.logo {
+    width: 110px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+p {
+    font-size: 13px;
+    margin-bottom: 23px;
+}
+
+.etapa {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+}
+
+.botoes {
+    margin-top: 10px;
+}
+
+
+}
