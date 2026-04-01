@@ -109,18 +109,13 @@ app.post('/api/cadastro', async (req, res) => {
 
          =============================================================== */
 
-        /*===============================================================
-
-            GERA O NÚMERO EXCLUSIVO E SALVA
-
-         =============================================================== */
 
         let numeroSorte;
         let numeroUnico = false;
 
         
         while (!numeroUnico) {
-            numeroSorte = Math.floor(1000 + Math.random() * 90000);
+            numeroSorte = Math.floor(1000 + Math.random() * 99999);
             
             const checkSorte = await pool.request()
                 .input('NumSorte', sql.Int, numeroSorte)
