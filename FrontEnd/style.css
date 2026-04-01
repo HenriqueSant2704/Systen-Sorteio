@@ -592,11 +592,12 @@ button img {
 
 @media (max-width: 570px) {
 form{
-    width: 85%;
+    width: 93%;
+    padding: 20px 30px 15px 30px;
 }
 
 .titulos {
-    gap: 15px;
+    gap: 10px;
 }
 
 .logo {
@@ -614,13 +615,13 @@ p {
 }
 
 .etapa {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     font-size: 10px;
 }
 
 .botoes {
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 
