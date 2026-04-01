@@ -725,9 +725,9 @@ button img {
 
 }
 
-@media (max-width: 400px) {
+@media (max-width: 320px) {
     form {
-        width: 92%;
+        width: 90%;
     }
 
 
