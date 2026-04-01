@@ -120,7 +120,7 @@ app.post('/api/cadastro', async (req, res) => {
 
         
         while (!numeroUnico) {
-            numeroSorte = Math.floor(100000 + Math.random() * 900000);
+            numeroSorte = Math.floor(1000 + Math.random() * 90000);
             
             const checkSorte = await pool.request()
                 .input('NumSorte', sql.Int, numeroSorte)

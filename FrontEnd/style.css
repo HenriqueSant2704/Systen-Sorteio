@@ -408,6 +408,11 @@ button img {
     margin: 0;
 }
 
+
+.passo-texto strong {
+    color: #c084fc;
+}
+
 .passo-texto strong a {
     color: #c084fc;
 }
@@ -643,6 +648,114 @@ button img {
 
     .btn-acao-outline {
         padding: 14px;
+    }
+
+}
+
+@media (max-width: 400px) {
+    form {
+        width: 93%;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    p {
+        font-size: 12px;
+        margin-bottom: 23px;
+    }
+
+    button {
+        padding: 14px;
+
+    }
+
+    .sucesso-container {
+        max-width: 315px;
+    }
+
+    .passo {
+        padding: 13px;
+
+    }
+
+    .btn-acao-outline {
+        padding: 12px;
+    }
+
+}
+
+@media (max-width: 360px) {
+    form {
+        width: 90%;
+    }
+
+    .logo {
+        width: 100px;
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    p {
+        font-size: 12px;
+        margin-bottom: 23px;
+    }
+
+    button {
+        padding: 12px;
+
+    }
+
+    .sucesso-container {
+        max-width: 285px;
+    }
+
+    .passo {
+        padding: 11px;
+
+    }
+
+    .btn-acao-outline {
+        padding: 11px;
+    }
+
+}
+
+@media (max-width: 400px) {
+    form {
+        width: 92%;
+    }
+
+
+    h1 {
+        font-size: 23px;
+    }
+
+    p {
+        font-size: 12px;
+        margin-bottom: 22px;
+    }
+
+    button {
+        padding: 9px;
+
+    }
+
+    .sucesso-container {
+        max-width: 265px;
+    }
+
+    .passo {
+        padding: 10px;
+
+    }
+
+    .btn-acao-outline {
+        padding: 9px;
     }
 
 }

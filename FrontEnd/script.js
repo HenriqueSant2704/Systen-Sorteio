@@ -207,7 +207,7 @@ botao.addEventListener("click", async (e) => {
         botaoVoltar.style.display = etapaAtual === 0 ? "none" : "block";
 
         if (etapaAtual === etapasForm.length - 1) {
-            textoBotao.textContent = "Finalizar Cadastro";
+            textoBotao.textContent = "Finalizar";
             botao.classList.add("finalizar");
             iconeBotao.style.display = "none";
         }
@@ -377,7 +377,7 @@ function validarEtapaAtual() {
                 input.style.borderColor = "red";
                 const erroTelefone = document.getElementById("erroTelefone");
                 if (erroTelefone) {
-                    erroTelefone.textContent = "Telefone inválido! Use o formato (00) 90000-0000.";
+                    erroTelefone.textContent = "Telefone inválido! Use o um número real.";
                     erroTelefone.style.display = "block";
                 }
                 input.focus();
@@ -413,7 +413,7 @@ function validarEtapaAtual() {
                 input.style.borderColor = "red";
                 const erroEmail = document.getElementById("erroEmail");
                 if (erroEmail) {
-                    erroEmail.textContent = "Digite um email válido (ex: nome@email.com)";
+                    erroEmail.textContent = "Digite um email válido (ex@email.com)";
                     erroEmail.style.display = "block";
                 }
                 input.focus();
