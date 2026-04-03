@@ -158,6 +158,75 @@ p {
     filter: brightness(0) saturate(100%) invert(36%) sepia(91%) saturate(1200%) hue-rotate(245deg) brightness(100%) contrast(101%);
 }
 
+
+.input-container-flex {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-container-flex .input-wrapper {
+    flex: 1;
+}
+
+
+#btnValidarWhats {
+    width: auto;
+    padding: 0 20px;
+    margin-top: 0;
+    white-space: nowrap;
+    height: 48px; 
+}
+
+
+#wrapperCodigo {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+
+.input-container-flex {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-container-flex .input-wrapper {
+    flex: 1;
+}
+
+
+#btnValidarWhats,
+#btnReenviarWhats {
+    width: auto;
+    padding: 0 20px;
+    margin-top: 0; 
+    white-space: nowrap; 
+    height: 48px;
+}
+
+
+#wrapperCodigo, 
+#btnReenviarWhats {
+    display: none;
+}
+
+
+#wrapperCodigo {
+    animation: fadeIn 0.4s ease;
+}
+
+
+#btnReenviarWhats:disabled {
+    border-color: #334155;
+    color: #94a3b8;
+    background-color: transparent;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+
 input {
     width: 100%;
     padding: 14px 16px;

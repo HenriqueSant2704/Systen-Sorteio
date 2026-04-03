@@ -61,12 +61,32 @@
         <!-- ETAPA 2 -->
         <div class="etapa-form">
             <div class="caixainput">
-                <span>WhatsApp</span>
-                <div class="input-wrapper">
-                    <img src="./Assets/Iconis/phone.png">
-                    <input type="text" id="telefoneInput" placeholder="(00) 00000-0000">
+                <span class="caixainput-span" id="labelWhats">WhatsApp</span>
+
+                <div class="input-container-flex">
+
+                    <div class="input-wrapper" id="wrapperTelefone">
+                        <img src="./Assets/Iconis/phone.png">
+                        <input type="text" id="telefoneInput" placeholder="(00) 00000-0000">
+                    </div>
+
+                    <div class="input-wrapper" id="wrapperCodigo">
+                        <img src="./Assets/Iconis/phone.png">
+                        <input type="text" id="codigoInput" placeholder="Digite o código">
+                    </div>
+
+                    <button type="button" id="btnValidarWhats" class="btn-acao-outline">
+                        Validar
+                    </button>
+
+                    <button type="button" id="btnReenviarWhats" class="btn-acao-outline">
+                        Reenviar
+                    </button>
+
                 </div>
+
                 <span class="erro" id="erroTelefone"></span>
+                <span class="erro" id="erroCodigo"></span>
             </div>
 
             <div class="caixainput">
@@ -163,7 +183,9 @@
         <div class="lista-passos">
             <div class="passo">
                 <div class="passo-numero">1</div>
-                <div class="passo-texto">Siga a <strong><a href="https://www.instagram.com/neticofibra/">NETICO</a></strong> no instagram para concorrer.</div>
+                <div class="passo-texto">Siga a <strong><a
+                            href="https://www.instagram.com/neticofibra/">NETICO</a></strong> no instagram para
+                    concorrer.</div>
             </div>
             <div class="passo">
                 <div class="passo-numero">2</div>

@@ -51,6 +51,16 @@ function validarCPFMatematico(cpf) {
     return true;
 }
 
+/* ================= CÓDIGO WHATSAPP =================*/
+const inputDoCodigo = document.getElementById("codigoInput");
+
+inputDoCodigo.addEventListener("input", () => {
+
+    let valor = inputDoCodigo.value.replace(/\D/g, "");
+
+    inputDoCodigo.value = valor.slice(0, 4);
+});
+
 /* ================= TELEFONE =================*/
 
 const telefoneInput = document.getElementById("telefoneInput");
@@ -131,6 +141,7 @@ function emailValido(email) {
     return temArroba && temPonto;
 }
 
+
 /*===========================================================================
 
     Barra de Progresso
@@ -163,11 +174,18 @@ let processandoClique = false;
 botao.addEventListener("click", async (e) => {
     e.preventDefault();
 
-   
-    if (processandoClique) return; 
 
-    
+    if (processandoClique) return;
+
+
     processandoClique = true;
+
+    const etapaValida = await validarEtapaAtual();
+
+    if (!etapaValida) {
+        processandoClique = false;
+        return;
+    }
 
     if (!validarEtapaAtual()) {
         processandoClique = false;
@@ -185,7 +203,7 @@ botao.addEventListener("click", async (e) => {
 
 
     if (!passouNoBanco) {
-        processandoClique = false; 
+        processandoClique = false;
         return;
     }
 
@@ -211,14 +229,14 @@ botao.addEventListener("click", async (e) => {
             botao.classList.add("finalizar");
             iconeBotao.style.display = "none";
         }
-        
+
         processandoClique = false;
 
     } else {
-        
+
         await enviarDadosParaBackend();
-        
-       
+
+
     }
 });
 
@@ -324,7 +342,7 @@ function mostrarErroDuplicado(campo, mensagem) {
     }
 }
 
-function validarEtapaAtual() {
+async function validarEtapaAtual() {
     const inputs = etapasForm[etapaAtual].querySelectorAll("input");
 
     /* ==============================================================
@@ -332,6 +350,7 @@ function validarEtapaAtual() {
         1. FAXINA: Limpa bordas vermelhas e erros antes de verificar
 
     ============================================================== */
+
 
     for (let input of inputs) {
         input.style.borderColor = "";
@@ -343,21 +362,20 @@ function validarEtapaAtual() {
 
     /* =================================================================
 
-        2. VERIFICAÇÕES
+        2. VERIFICAÇÕES PADRÃO (NOME, CPF, ETC)
 
     =====================================================================*/
 
 
     for (let input of inputs) {
 
-        
-        if (input.value.trim() === "") {
+
+        if (input.value.trim() === "" && input.id !== "codigoInput") {
             input.style.borderColor = "red";
             input.focus();
             return false;
         }
 
-        
         if (input.id === "cpfInput") {
             if (!validarCPFMatematico(input.value)) {
                 input.style.borderColor = "red";
@@ -371,13 +389,12 @@ function validarEtapaAtual() {
             }
         }
 
-        
         if (input.id === "telefoneInput") {
             if (!validarTelefoneReal(input.value)) {
                 input.style.borderColor = "red";
                 const erroTelefone = document.getElementById("erroTelefone");
                 if (erroTelefone) {
-                    erroTelefone.textContent = "Telefone inválido! Use o um número real.";
+                    erroTelefone.textContent = "Telefone inválido! Use um número real.";
                     erroTelefone.style.display = "block";
                 }
                 input.focus();
@@ -385,15 +402,9 @@ function validarEtapaAtual() {
             }
         }
 
-/*===========================================================
-
-     VALIDAÇÃO: NOME E SOBRENOME
-
-=============================================================*/
-
         if (input.id === "nomeInput") {
             const nomeLimpo = input.value.trim();
-            const palavras = nomeLimpo.split(/\s+/); 
+            const palavras = nomeLimpo.split(/\s+/);
 
             if (palavras.length < 2 || nomeLimpo.length < 5) {
                 input.style.borderColor = "red";
@@ -407,7 +418,6 @@ function validarEtapaAtual() {
             }
         }
 
-       
         if (input.type === "email" && input.id !== "inputPix") {
             if (!emailValido(input.value)) {
                 input.style.borderColor = "red";
@@ -421,51 +431,89 @@ function validarEtapaAtual() {
             }
         }
 
-/* ==============================================================
-
-     Validação da Chave PIX (AGORA BLINDADA!)
-
- =============================================================*/
-
         if (input.id === "inputPix") {
             const erroPix = document.getElementById("erroPix");
 
-            
             if (tipoPix === "email" && !emailValido(input.value)) {
                 input.style.borderColor = "red";
-                if (erroPix) {
-                    erroPix.textContent = "Digite um email válido para o PIX";
-                    erroPix.style.display = "block";
-                }
-                input.focus();
-                return false;
+                if (erroPix) { erroPix.textContent = "Digite um email válido para o PIX"; erroPix.style.display = "block"; }
+                input.focus(); return false;
             }
 
-        
             if (tipoPix === "cpf" && !validarCPFMatematico(input.value)) {
                 input.style.borderColor = "red";
-                if (erroPix) {
-                    erroPix.textContent = "Chave PIX inválida! Digite um CPF real.";
-                    erroPix.style.display = "block";
-                }
-                input.focus();
-                return false;
+                if (erroPix) { erroPix.textContent = "Chave PIX inválida! Digite um CPF real."; erroPix.style.display = "block"; }
+                input.focus(); return false;
             }
 
-            
             if (tipoPix === "telefone" && !validarTelefoneReal(input.value)) {
                 input.style.borderColor = "red";
-                if (erroPix) {
-                    erroPix.textContent = "Chave PIX inválida! Use um número real.";
-                    erroPix.style.display = "block";
-                }
-                input.focus();
-                return false;
+                if (erroPix) { erroPix.textContent = "Chave PIX inválida! Use um número real."; erroPix.style.display = "block"; }
+                input.focus(); return false;
             }
         }
     }
 
-    return true; 
+    /* ==============================================================
+
+        3. TRAVA DO WHATSAPP (A MÁGICA ACONTECE AQUI)
+
+    ============================================================== */
+
+
+    if (etapaAtual === 1) {
+        const wrapperCodigo = document.getElementById("wrapperCodigo");
+        const codigoInput = document.getElementById("codigoInput");
+        const erroTelefone = document.getElementById("erroTelefone");
+        const erroCodigo = document.getElementById("erroCodigo");
+
+
+        if (wrapperCodigo.style.display !== "block") {
+            erroTelefone.textContent = "Por favor, Valide o número de telefone.";
+            erroTelefone.style.display = "block";
+            document.getElementById("telefoneInput").style.borderColor = "red";
+            document.getElementById("telefoneInput").focus();
+            return false;
+        }
+
+
+        const codigoDigitado = codigoInput.value.trim();
+
+        if (codigoDigitado.length < 4) {
+            erroCodigo.textContent = "Digite o código de 4 dígitos para continuar.";
+            erroCodigo.style.display = "block";
+            codigoInput.style.borderColor = "red";
+            codigoInput.focus();
+            return false;
+        }
+
+
+        try {
+            const resposta = await fetch("http://127.0.0.1:3000/api/conferir-codigo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    telefone: document.getElementById("telefoneInput").value,
+                    codigo: codigoDigitado
+                })
+            });
+
+            const resultado = await resposta.json();
+
+            if (!resultado.sucesso) {
+                erroCodigo.textContent = "Código incorreto! Verifique seu WhatsApp.";
+                erroCodigo.style.display = "block";
+                codigoInput.style.borderColor = "red";
+                erroCodigo.style.color = "red";
+                return false;
+            }
+        } catch (erro) {
+            alert("Erro ao validar código. O servidor está rodando?");
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /* =================================================================
@@ -596,3 +644,143 @@ function voltarParaFormulario() {
     document.getElementById('areaInstrucoes').style.display = 'none';
     document.querySelector('form').style.display = 'block';
 }
+/* =================================================================
+
+    Ação do Botão Validar WhatsApp (Pedir Código e Trocar Input)
+
+====================================================================*/
+
+const btnValidarWhats = document.getElementById("btnValidarWhats");
+const btnReenviarWhats = document.getElementById("btnReenviarWhats");
+const wrapperTelefone = document.getElementById("wrapperTelefone");
+const wrapperCodigo = document.getElementById("wrapperCodigo");
+const labelWhats = document.getElementById("labelWhats");
+const erroTelefone = document.getElementById("erroTelefone");
+
+const NUMERO_DA_EMPRESA = "5517992020369";
+
+
+function iniciarTimerReenvio() {
+    let tempoEspera = 60;
+
+
+    btnReenviarWhats.disabled = true;
+    btnReenviarWhats.textContent = `Aguarde ${tempoEspera}s`;
+
+
+    const timerAtivo = setInterval(() => {
+        tempoEspera--;
+        btnReenviarWhats.textContent = `Aguarde ${tempoEspera}s`;
+
+
+        if (tempoEspera <= 0) {
+            clearInterval(timerAtivo);
+            btnReenviarWhats.disabled = false;
+            btnReenviarWhats.textContent = "Reenviar";
+        }
+    }, 1000);
+}
+
+
+
+async function dispararCodigo(telefone, isReenvio = false) {
+    const erroTelefone = document.getElementById("erroTelefone");
+    const telefoneInput = document.getElementById("telefoneInput");
+
+    try {
+        const resposta = await fetch("http://127.0.0.1:3000/api/gerar-codigo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ telefone: telefone })
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok && resultado.sucesso) {
+
+            if (!isReenvio) {
+                
+                wrapperTelefone.style.display = "none";
+                wrapperCodigo.style.display = "block";
+                labelWhats.textContent = "Digite o código recebido no Zap";
+                btnValidarWhats.style.display = "none";
+                btnReenviarWhats.style.display = "block";
+
+                const mensagem = encodeURIComponent("Olá! Quero validar meu número no sorteio.");
+                window.open(`https://wa.me/${NUMERO_DA_EMPRESA}?text=${mensagem}`, "_blank");
+            } else {
+                
+                const erroCodigo = document.getElementById("erroCodigo");
+                erroCodigo.textContent = "Novo código gerado! Envie a mensagem no WhatsApp.";
+                erroCodigo.style.color = "#13DB5D";
+                erroCodigo.style.display = "block";
+                setTimeout(() => erroCodigo.style.display = "none", 5000);
+
+                
+                
+                const mensagemReenvio = encodeURIComponent("Olá! Preciso de um novo código para validar meu número no sorteio.");
+                window.open(`https://wa.me/${NUMERO_DA_EMPRESA}?text=${mensagemReenvio}`, "_blank");
+            }
+
+            
+            iniciarTimerReenvio();
+
+        } else {
+            
+            erroTelefone.textContent = resultado.mensagem;
+            erroTelefone.style.color = "#ef4444";
+            erroTelefone.style.display = "block";
+            telefoneInput.style.borderColor = "red";
+
+           
+            if (!isReenvio) {
+                btnValidarWhats.textContent = "Validar";
+                btnValidarWhats.disabled = false;
+            } else {
+                btnReenviarWhats.textContent = "Reenviar";
+                btnReenviarWhats.disabled = false;
+            }
+        }
+    } catch (erro) {
+        alert("Falha de conexão com o servidor. O Node.js está rodando?");
+        if (!isReenvio) {
+            btnValidarWhats.textContent = "Validar";
+            btnValidarWhats.disabled = false;
+        } else {
+            btnReenviarWhats.textContent = "Reenviar";
+            btnReenviarWhats.disabled = false;
+        }
+    }
+}
+
+
+btnValidarWhats.addEventListener("click", () => {
+    const telefone = telefoneInput.value;
+
+    if (!validarTelefoneReal(telefone)) {
+        erroTelefone.textContent = "Digite um telefone válido antes de validar!";
+        erroTelefone.style.color = "#ef4444";
+        erroTelefone.style.display = "block";
+        telefoneInput.style.borderColor = "red";
+        return;
+    }
+
+    erroTelefone.style.display = "none";
+    telefoneInput.style.borderColor = "";
+
+
+    btnValidarWhats.textContent = "Verificando...";
+    btnValidarWhats.disabled = true;
+
+    dispararCodigo(telefone, false);
+});
+
+
+btnReenviarWhats.addEventListener("click", () => {
+    const telefone = telefoneInput.value;
+
+    btnReenviarWhats.textContent = "Enviando...";
+    btnReenviarWhats.disabled = true;
+
+    dispararCodigo(telefone, true);
+});
