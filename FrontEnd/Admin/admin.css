@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #121214;
+    background-image: radial-gradient(circle at 50% 0%, rgba(138, 43, 226, 0.20) 0%, transparent 60%);
+    color: #f8fafc;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 30px 0; 
+}
+
+.logo {
+    width: 300px;
+    height: auto;
+}
+
+
+.menu-painel {
+    width: 80%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    padding: 0px 30px;
+    background-color: rgba(26, 26, 32, 0.589);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(55, 7, 131, 0.507);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.507);
+}
+
+.ciaxa-titulo {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.titulo h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.titulo img {
+    width: 24px;
+    height: 24px;
+}
+
+
+.quant-participante span {
+    color: #94a3b8;
+    font-size: 15px;
+}
+
+.menu-acoes {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+
+.caixa-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 450px; 
+}
+
+.caixa-input img {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.6; 
+    pointer-events: none; 
+    transition: 0.3s ease;
+}
+
+.caixa-input input {
+    width: 100%;
+    height: 50px;
+    padding: 14px 16px 14px 42px; 
+    font-size: 14px;
+    color: white;
+    background-color: rgba(18, 18, 20, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.caixa-input input:focus {
+    border-color: #814cfc;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.caixa-input input::placeholder {
+    color: #475569;
+}
+
+.caixa-input:focus-within img {
+    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(36%) sepia(91%) saturate(1200%) hue-rotate(245deg) brightness(100%) contrast(101%);
+}
+
+.menu-acoes button.sortear {
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    background: linear-gradient(to right, #7c3aed, #c026d3);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+}
+
+.menu-acoes button.sortear:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+    background: linear-gradient(to right, #8b5cf6, #d946ef);
+}
+
+.menu-acoes button.sortear img {
+    width: 18px;
+    height: 18px;
+}
+
+
+.menu-acoes button.sortear {
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    background: linear-gradient(to right, #7c3aed, #c026d3);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+}
+
+.menu-acoes button.sortear:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+    background: linear-gradient(to right, #8b5cf6, #d946ef);
+}
+
+.menu-acoes button.sortear img {
+    width: 20px;
+    height: 20px;
+}
+
+.listas-cadastro {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.container-lista {
+    width: 80%;
+    height: 500px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    gap: 8px; 
+    border-radius: 20px;
+    padding: 20px 30px;
+    background-color: rgba(26, 26, 32, 0.589);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(55, 7, 131, 0.507);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.507);
+}
+
+.circulo {
+    width: 90px;
+    height: 90px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px; 
+}
+
+
+.circulo img {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5; 
+    filter: grayscale(100%) brightness(150%); 
+}
+
+
+.container-lista p {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+
+.container-lista span {
+    color: #94a3b8;
+    font-size: 15px;
+    margin: 0;
+    font-weight: 400;
+}
+
+
+.paginacao {
+    width: 80%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(26, 26, 32, 0.589);
+    border: 1px solid rgba(55, 7, 131, 0.507);
+    border-radius: 20px;
+    padding: 10px 30px;
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);
+}
+
+.quant-pagina span {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.botoes-paginacao {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-paginacao {
+    background: rgba(18, 18, 20, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button.btn-paginacao:hover {
+    background: rgba(26, 26, 32, 0.8);
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15);
+    transform: translateY(-2px);
+}
+
+div.btn-paginacao {
+    cursor: default;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-weight: 500;
+}
