@@ -176,8 +176,6 @@ botao.addEventListener("click", async (e) => {
 
 
     if (processandoClique) return;
-
-
     processandoClique = true;
 
     const etapaValida = await validarEtapaAtual();
@@ -187,10 +185,7 @@ botao.addEventListener("click", async (e) => {
         return;
     }
 
-    if (!validarEtapaAtual()) {
-        processandoClique = false;
-        return;
-    }
+
 
     const textoOriginal = textoBotao.textContent;
     textoBotao.textContent = "Verificando...";
@@ -683,6 +678,7 @@ function iniciarTimerReenvio() {
 
 
 
+// 📡 FUNÇÃO PARA CHAMAR O BACKEND (Atualizada para Reenvio Automático)
 async function dispararCodigo(telefone, isReenvio = false) {
     const erroTelefone = document.getElementById("erroTelefone");
     const telefoneInput = document.getElementById("telefoneInput");
@@ -691,15 +687,16 @@ async function dispararCodigo(telefone, isReenvio = false) {
         const resposta = await fetch("http://127.0.0.1:3000/api/gerar-codigo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ telefone: telefone })
+            // 👇 AQUI: Agora enviamos a informação se é reenvio ou não para o back-end!
+            body: JSON.stringify({ telefone: telefone, isReenvio: isReenvio })
         });
 
         const resultado = await resposta.json();
 
         if (resposta.ok && resultado.sucesso) {
-
+            
             if (!isReenvio) {
-                
+               
                 wrapperTelefone.style.display = "none";
                 wrapperCodigo.style.display = "block";
                 labelWhats.textContent = "Digite o código recebido no Zap";
@@ -711,28 +708,20 @@ async function dispararCodigo(telefone, isReenvio = false) {
             } else {
                 
                 const erroCodigo = document.getElementById("erroCodigo");
-                erroCodigo.textContent = "Novo código gerado! Envie a mensagem no WhatsApp.";
-                erroCodigo.style.color = "#13DB5D";
+                erroCodigo.textContent = "Novo código enviado para o seu WhatsApp!";
+                erroCodigo.style.color = "#13DB5D"; 
                 erroCodigo.style.display = "block";
-                setTimeout(() => erroCodigo.style.display = "none", 5000);
-
-                
-                
-                const mensagemReenvio = encodeURIComponent("Olá! Preciso de um novo código para validar meu número no sorteio.");
-                window.open(`https://wa.me/${NUMERO_DA_EMPRESA}?text=${mensagemReenvio}`, "_blank");
+                setTimeout(() => erroCodigo.style.display = "none", 5000); 
             }
-
             
             iniciarTimerReenvio();
 
         } else {
-            
-            erroTelefone.textContent = resultado.mensagem;
+            erroTelefone.textContent = resultado.mensagem; 
             erroTelefone.style.color = "#ef4444";
             erroTelefone.style.display = "block";
             telefoneInput.style.borderColor = "red";
-
-           
+            
             if (!isReenvio) {
                 btnValidarWhats.textContent = "Validar";
                 btnValidarWhats.disabled = false;
