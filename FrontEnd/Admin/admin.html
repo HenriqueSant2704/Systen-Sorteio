@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../FrontEnd/Admin/admin.css">
     <title>Painel Admin</title>
 </head>
+
 <body>
     <div class="container">
         <img class="logo" src="../../Assets/imgs/netico-logo.png" alt="Logo Netico">
         <div class="menu-painel">
-            
+
             <div class="ciaxa-titulo">
                 <div class="titulo">
                     <img src="../../Assets/Iconis/security.png" alt="">
@@ -25,11 +27,16 @@
             <div class="menu-acoes">
                 <div class="caixa-input">
                     <img src="../../Assets/Iconis/search.png" alt="">
-                    <input type="text" placeholder="Buscar participante...">
+                    <input type="text" id="inputBusca" placeholder="Buscar participante...">
                 </div>
+
                 <button class="sortear">
                     <img src="../../Assets/Iconis/trophy.png" alt="">
                     Sortear Ganhador
+                </button>
+
+                <button id="btnAlternarLista" class="btn-neutro" style="display: none;">
+                    <img src="../../Assets/Iconis/group-btanco.png" alt=""> <span>Ver Ganhadores</span>
                 </button>
             </div>
 
@@ -50,14 +57,123 @@
                 </div>
 
                 <div class="botoes-paginacao">
-                    <button class="btn-paginacao">Anterior</button>
-                    <div class="btn-paginacao">Página 1 de 2</div>
-                    <button class="btn-paginacao">Próximo</button>  
+                    <button class="btn-paginacao" id="btn-anterior">Anterior</button>
+                    <div class="btn-paginacao" id="info-pagina">Página 1 de 1</div>
+                    <button class="btn-paginacao" id="btn-proximo">Próximo</button>
                 </div>
+            </div>
+        </div>
+
+        <div id="modalParticipante" class="modal-overlay">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <div class="modal-topo-info">
+                        <div class="avatar" style="background-color: #7c3aed;" id="modAvatar">PA</div>
+                        <div class="info-user-modal">
+                            <span class="nome" id="modNome">Participante</span>
+                            <span class="ticket">Ticket: <span id="modTicket"></span></span>
+                        </div>
+                    </div>
+                    <button class="btn-fechar" id="btnFecharModal">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 1L1 13M1 1L13 13" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="linha-divisoria"></div>
+
+                <div class="modal-body">
+                    <div class="info-box">
+                        <div class="icone-box">
+                            <img src="../../Assets/Iconis/driver-license.png" alt="CPF">
+                        </div>
+                        <div class="info-texts">
+                            <span class="label">CPF</span>
+                            <span class="value" id="modCpf"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="icone-box">
+                            <img src="../../Assets/Iconis/location.png" alt="Cidade">
+                        </div>
+                        <div class="info-texts">
+                            <span class="label">CIDADE</span>
+                            <span class="value" id="modCidade"> </span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="icone-box">
+                            <img src="../../Assets/Iconis/phone.png" alt="Telefone">
+                        </div>
+                        <div class="info-texts">
+                            <span class="label">TELEFONE</span>
+                            <span class="value" id="modTelefone"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="icone-box">
+                            <img src="../../Assets/Iconis/instagram.png" alt="Instagram">
+                        </div>
+                        <div class="info-texts">
+                            <span class="label">INSTAGRAM</span>
+                            <span class="value" id="modInstagram"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="pix-topo">
+                        <img src="../../Assets/Iconis/icons8-foto-120.png" alt="Pix" class="icone-pix-pequeno">
+                        <span class="label">CHAVE PIX CADASTRADA</span>
+                    </div>
+                    <div class="pix-conteudo">
+                        <span class="badge-tipo-pix" id="modTipoPix"></span>
+                        <span class="chave-pix" id="modChavePix"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalVencedor" class="modal-overlay">
+            <div class="modal-content vencedor-content">
+
+                <div class="vencedor-header">
+                    <div class="icone-trofeu-brilho">
+                        <img src="../../Assets/Iconis/trophy.png" alt="Troféu">
+                    </div>
+                    <span class="titulo-vencedor">TEMOS UM VENCEDOR!</span>
+                    <h2 class="nome-vencedor" id="vencedorNome">Carregando...</h2>
+                </div>
+
+                <div class="vencedor-numero-box">
+                    <span class="label">NÚMERO SORTEADO</span>
+                    <span class="numero" id="vencedorTicket">0000</span>
+                </div>
+
+                <div class="vencedor-footer">
+                    <div class="info-inline">
+                        <img src="../../Assets/Iconis/location.png" alt="Local">
+                        <span id="vencedorCidade">---</span>
+                    </div>
+                    <div class="info-inline">
+                        <img src="../../Assets/Iconis/phone.png" alt="Telefone">
+                        <span id="vencedorTelefone">---</span>
+                    </div>
+                </div>
+
+                <button class="btn-fechar-vencedor" id="btnFecharVencedor">Fechar Painel</button>
+
             </div>
         </div>
     </div>
 
     <script src="../../FrontEnd/Admin/admin.js"></script>
 </body>
+
 </html>

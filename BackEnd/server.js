@@ -13,6 +13,7 @@ app.use(express.json());
     Funções de Validação de Dados
 
 ============================================================================*/
+
 function validarCPFMatematico(cpf) {
     if (!cpf) return false;
     cpf = cpf.replace(/\D/g, "");
@@ -500,5 +501,109 @@ app.post('/api/webhook/evolution/messages-upsert', async (req, res) => {
         }
     } catch (erro) {
         console.error("Erro no processamento do webhook:", erro);
+    }
+});
+
+
+
+
+
+
+/* =====================================================================
+
+   ROTA: Painel Admin
+
+====================================================================*/
+
+
+
+/* =====================================================================
+
+   ROTA: BUSCAR TODOS OS PARTICIPANTES (PARA O PAINEL ADMIN)
+
+====================================================================*/
+
+app.get('/api/participantes', async (req, res) => {
+    try {
+        const pool = await poolPromise;
+        
+
+        const busca = await pool.request().query(`
+            SELECT Id, NomeCompleto, CPF, Cidade, Telefone, Email, Instagram, TipoPix, ChavePix, NumeroSorte 
+            FROM Participantes 
+            ORDER BY NomeCompleto ASC
+        `);
+
+        res.status(200).json({
+            sucesso: true,
+            participantes: busca.recordset
+        });
+
+    } catch (erro) {
+        console.error('Erro ao buscar lista de participantes:', erro);
+        res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor ao buscar participantes.' });
+    }
+});
+/* =====================================================================
+
+   ROTA: SALVAR GANHADOR (POST)
+
+====================================================================*/
+
+app.post('/api/ganhadores', async (req, res) => {
+    try {
+        const { participante_id, nome, numero_sorte } = req.body;
+
+        const pool = await poolPromise;
+        const request = pool.request();
+       
+        request.input('participanteId', sql.Int, participante_id);
+        request.input('nomeCompleto', sql.VarChar(150), nome);
+        request.input('numeroSorte', sql.Int, numero_sorte);
+
+        await request.query(`
+            INSERT INTO Ganhadores (ParticipanteId, NomeCompleto, NumeroSorte)
+            VALUES (@participanteId, @nomeCompleto, @numeroSorte)
+        `);
+
+        res.json({ sucesso: true, mensagem: 'Ganhador salvo no banco com sucesso!' });
+    } catch (erro) {
+        console.error('Erro ao salvar ganhador:', erro);
+        res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
+    }
+});
+
+
+/* =====================================================================
+
+   ROTA: BUSCAR GANHADORES (GET)
+
+====================================================================*/
+app.get('/api/ganhadores', async (req, res) => {
+    try {
+        const pool = await poolPromise;
+        const request = pool.request();
+        
+        const resultado = await request.query(`
+            SELECT 
+                g.Id as id_ganhador,
+                p.Id as id, 
+                g.NomeCompleto,
+                g.NumeroSorte,
+                g.DataSorteio,
+                p.Cidade,
+                p.Telefone,
+                p.Instagram,
+                p.TipoPix,
+                p.ChavePix
+            FROM Ganhadores g
+            INNER JOIN Participantes p ON g.ParticipanteId = p.Id
+            ORDER BY g.DataSorteio ASC 
+        `);
+
+        res.json({ sucesso: true, ganhadores: resultado.recordset });
+    } catch (erro) {
+        console.error('Erro ao buscar a lista de ganhadores:', erro);
+        res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
     }
 });

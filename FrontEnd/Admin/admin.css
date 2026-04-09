@@ -19,7 +19,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 50px;
-    padding: 30px 0; 
+    padding: 30px 0;
 }
 
 .logo {
@@ -89,7 +89,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    width: 450px; 
+    width: 450px;
 }
 
 .caixa-input img {
@@ -99,15 +99,15 @@ body {
     transform: translateY(-50%);
     width: 18px;
     height: 18px;
-    opacity: 0.6; 
-    pointer-events: none; 
+    opacity: 0.6;
+    pointer-events: none;
     transition: 0.3s ease;
 }
 
 .caixa-input input {
     width: 100%;
     height: 50px;
-    padding: 14px 16px 14px 42px; 
+    padding: 14px 16px 14px 42px;
     font-size: 14px;
     color: white;
     background-color: rgba(18, 18, 20, 0.5);
@@ -133,31 +133,34 @@ body {
 }
 
 .menu-acoes button.sortear {
-    padding: 14px 24px;
+    padding: 14px 26px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
     font-size: 15px;
     font-weight: 700;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
-    background: linear-gradient(to right, #7c3aed, #c026d3);
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    background: linear-gradient(135deg, #8b5cf6, #c026d3); 
+    box-shadow: 0 6px 20px rgba(192, 38, 211, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0; 
 }
 
 .menu-acoes button.sortear:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
-    background: linear-gradient(to right, #8b5cf6, #d946ef);
+    background: linear-gradient(135deg, #9333ea, #d946ef);
+    box-shadow: 0 8px 25px rgba(192, 38, 211, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 .menu-acoes button.sortear img {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
 }
 
 
@@ -189,6 +192,68 @@ body {
     height: 20px;
 }
 
+/* =================================================================
+
+   BOTÃO NEUTRO E ESTILO DO CARD DE GANHADOR
+
+====================================================================*/
+
+.btn-neutro {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.08));
+    border: 1px solid rgba(139, 92, 246, 0.25); 
+    color: #cbd5e1;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    white-space: nowrap; 
+    flex-shrink: 0;      
+}
+
+.btn-neutro:hover {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(192, 38, 211, 0.1));
+    color: #ffffff;
+    border-color: rgba(168, 85, 247, 0.5); 
+    box-shadow: 0 6px 15px rgba(168, 85, 247, 0.15);
+    transform: translateY(-2px);
+}
+
+.btn-neutro img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.btn-neutro:hover img {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.card-ganhador {
+    border-color: rgba(234, 179, 8, 0.4); 
+    background: rgba(26, 20, 10, 0.8); 
+}
+
+.card-ganhador:hover {
+    border-color: rgba(234, 179, 8, 0.8);
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.2), inset 0 0 10px rgba(234, 179, 8, 0.05);
+}
+
+.card-ganhador .sorte-box .numero {
+    background: linear-gradient(to right, #facc15, #fef08a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 15px rgba(250, 204, 21, 0.3);
+}
+
 .listas-cadastro {
     width: 100%;
     flex-direction: column;
@@ -199,15 +264,17 @@ body {
 
 
 .container-lista {
-    width: 80%;
-    height: 500px; 
+    width: 80%; 
+    min-height: 500px; 
+    height: auto;      
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center; 
-    gap: 8px; 
+    gap: 20px;
     border-radius: 20px;
     padding: 20px 30px;
+    color: #94a3b8;
     background-color: rgba(26, 26, 32, 0.589);
     backdrop-filter: blur(16px);
     border: 1px solid rgba(55, 7, 131, 0.507);
@@ -222,15 +289,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
 }
 
 
 .circulo img {
     width: 40px;
     height: 40px;
-    opacity: 0.5; 
-    filter: grayscale(100%) brightness(150%); 
+    opacity: 0.5;
+    filter: grayscale(100%) brightness(150%);
 }
 
 
@@ -302,4 +369,548 @@ div.btn-paginacao {
     border: none;
     color: #94a3b8;
     font-weight: 500;
+}
+
+/* =================================================================
+
+   ESTILOS DO GRID E DOS CARDS DE PARTICIPANTES
+   
+====================================================================*/
+
+
+
+.grid-cards {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    align-content: start;
+}
+
+.card-participante {
+    background: rgba(18, 18, 20, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.card-participante:hover {
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.25), inset 0 0 10px rgba(139, 92, 246, 0.05);
+    transform: translateY(-3px);
+}
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6021cc, #8c1c9b); 
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+}
+
+.info-user {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-user .nome {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.info-user .cidade {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.linha-divisoria {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent); 
+}
+
+.card-base {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sorte-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sorte-box .label {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.sorte-box .numero {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #c084fc, #e879f9); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 15px rgba(192, 132, 252, 0.3); 
+}
+
+.btn-ver {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: rgba(18, 18, 20, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.btn-ver:hover {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(192, 38, 211, 0.2));
+    border-color: rgba(192, 38, 211, 0.5);
+    box-shadow: 0 0 15px rgba(192, 38, 211, 0.3);
+}
+
+.btn-ver svg {
+    color: #94a3b8;
+    transition: 0.3s;
+}
+
+.btn-ver:hover svg {
+    color: #f5d0fe;
+}
+/* =================================================================
+
+   ESTILOS DO MODAL DE PARTICIPANTE
+   
+====================================================================*/
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.ativo {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 520px; 
+    background-color: #121214; 
+    border: 1px solid rgba(139, 92, 246, 0.4); 
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.2), inset 0 0 20px rgba(124, 58, 237, 0.05); 
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.ativo .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-topo-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.info-user-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-user-modal .nome {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.info-user-modal .ticket {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+
+.info-user-modal .ticket span {
+    font-size: 15px;
+    font-weight: 700;
+    background: linear-gradient(to right, #c084fc, #e879f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-fechar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-fechar:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.btn-fechar:hover svg path {
+    stroke: #ef4444; 
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.info-box {
+    background: rgba(26, 26, 32, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.3s;
+}
+
+.info-box:hover {
+    border-color: rgba(139, 92, 246, 0.2);
+}
+
+.icone-box img {
+    width: 23px;
+    height: 23px;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.4));
+}
+
+.info-texts {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-texts .label {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.info-texts .value {
+    color: #f8fafc;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.modal-footer {
+    background: linear-gradient(135deg, rgba(26, 26, 32, 0.8), rgba(18, 18, 20, 0.9));
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pix-topo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icone-pix-pequeno {
+    width: 18px;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.5));
+}
+
+.pix-topo .label {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.pix-conteudo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.badge-tipo-pix {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(192, 38, 211, 0.15));
+    color: #e879f9;
+    border: 1px solid rgba(192, 38, 211, 0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 10px rgba(192, 38, 211, 0.1);
+}
+
+.chave-pix {
+    color: #f8fafc;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: monospace; 
+}
+
+/* =================================================================
+
+   ESTILOS DO MODAL DE VENCEDOR E BOTÃO DE SORTEIO
+
+====================================================================*/
+
+.vencedor-content {
+    max-width: 450px;
+    text-align: center;
+    align-items: center; 
+    gap: 30px;
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 50px rgba(124, 58, 237, 0.3), inset 0 0 20px rgba(124, 58, 237, 0.1);
+}
+
+.vencedor-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.icone-trofeu-brilho {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #7c3aed, #c026d3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(192, 38, 211, 0.6);
+    margin-bottom: 10px;
+}
+
+.icone-trofeu-brilho img {
+    width: 40px;
+    height: 40px;
+    filter: brightness(0) invert(1); 
+}
+
+.titulo-vencedor {
+    color: #c084fc;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.nome-vencedor {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.vencedor-numero-box {
+    background: rgba(18, 18, 20, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 16px;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    width: 80%;
+}
+
+.vencedor-numero-box .label {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.vencedor-numero-box .numero {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(to right, #c084fc, #e879f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 20px rgba(192, 132, 252, 0.4);
+}
+
+.vencedor-footer {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.info-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-inline img {
+    width: 16px;
+    opacity: 0.7;
+}
+
+.btn-fechar-vencedor {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-fechar-vencedor:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(139, 92, 246, 0.4);
+}
+
+
+@keyframes girarIcone {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.animar-icone {
+    animation: girarIcone 1s linear infinite;
+}
+
+.botao-desativado {
+    opacity: 0.7;
+    cursor: not-allowed !important;
+    pointer-events: none; 
+}
+
+/* =================================================================
+
+   BADGES DE POSIÇÃO DOS GANHADORES (1º, 2º, 3º...)
+
+====================================================================*/
+
+
+.card-participante {
+    position: relative; 
+}
+
+.badge-posicao {
+    position: absolute;
+    top: 20px;
+    right: 20px; 
+    width: 32px;
+    height: 32px;
+    border-radius: 8px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+
+.posicao-1 {
+    background: linear-gradient(135deg, #eab308, #a16207);
+    border: 1px solid #fef08a;
+    box-shadow: 0 0 15px rgba(234, 179, 8, 0.4);
+}
+
+
+.posicao-2 {
+    background: linear-gradient(135deg, #a855f7, #6b21a8);
+    border: 1px solid #d8b4fe;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+
+.posicao-3 {
+    background: linear-gradient(135deg, #06b6d4, #0f766e);
+    border: 1px solid #67e8f9;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+}
+
+
+.posicao-neutra {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
 }
