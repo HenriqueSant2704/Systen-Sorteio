@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { sql, poolPromise } = require('./db');
+const { pool } = require('./db'); 
 require('dotenv').config();
 
 const app = express();
@@ -42,10 +42,6 @@ function validarTelefoneReal(telefone) {
     return true;
 }
 
-app.get('/', (req, res) => {
-    res.send('🚀 API do Sorteio rodando perfeitamente!');
-});
-
 function validarNomeCompleto(nome) {
     if (!nome) return false;
     const nomeLimpo = nome.trim();
@@ -54,132 +50,77 @@ function validarNomeCompleto(nome) {
     return true;
 }
 
+app.get('/', (req, res) => {
+    res.send('🚀 API do Sorteio rodando perfeitamente no PostgreSQL!');
+});
+
 /* =====================================================================
 
-    ROTA DE CADASTRO (COM VALIDAÇÃO DE DUPLICIDADE)
+    ROTA DE CADASTRO
 
  ====================================================================*/
+
+
 app.post('/api/cadastro', async (req, res) => {
     try {
         const { nomeCompleto, cpf, cidade, telefone, email, instagram, tipoPix, chavePix } = req.body;
 
-        if (!validarCPFMatematico(cpf)) {
-            return res.status(400).json({ sucesso: false, mensagem: "O CPF fornecido é matematicamente inválido." });
-        }
-        if (!validarTelefoneReal(telefone)) {
-            return res.status(400).json({ sucesso: false, mensagem: "Telefone inválido!" });
-        }
-        if (!validarNomeCompleto(nomeCompleto)) {
-            return res.status(400).json({ sucesso: false, mensagem: "Por favor, informe nome e sobrenome!" });
-        }
+        if (!validarCPFMatematico(cpf)) return res.status(400).json({ sucesso: false, mensagem: "O CPF fornecido é matematicamente inválido." });
+        if (!validarTelefoneReal(telefone)) return res.status(400).json({ sucesso: false, mensagem: "Telefone inválido!" });
+        if (!validarNomeCompleto(nomeCompleto)) return res.status(400).json({ sucesso: false, mensagem: "Por favor, informe nome e sobrenome!" });
 
-        const pool = await poolPromise;
-
-        /* ====================================================================
         
-                VALIDAÇÃO: Verifica se já existe no banco
-        
-        =======================================================================*/
-        const checkDuplicado = await pool.request()
-            .input('CPF', sql.VarChar, cpf)
-            .input('Email', sql.VarChar, email)
-            .input('Telefone', sql.VarChar, telefone)
-            .input('ChavePix', sql.VarChar, chavePix)
-            .query(`
-                SELECT TOP 1 CPF, Email, Telefone, ChavePix 
-                FROM Participantes 
-                WHERE CPF = @CPF OR Email = @Email OR Telefone = @Telefone OR ChavePix = @ChavePix
-            `);
+        const checkDuplicado = await pool.query(`
+            SELECT CPF, Email, Telefone, ChavePix 
+            FROM Participantes 
+            WHERE CPF = $1 OR Email = $2 OR Telefone = $3 OR ChavePix = $4
+            LIMIT 1
+        `, [cpf, email, telefone, chavePix]);
 
-
-        if (checkDuplicado.recordset.length > 0) {
-            const duplicado = checkDuplicado.recordset[0];
+        if (checkDuplicado.rows.length > 0) {
+            const duplicado = checkDuplicado.rows[0];
             let msgErro = "Você já está cadastrado no sorteio!";
-
-            if (duplicado.CPF === cpf) msgErro = "Este CPF já está cadastrado no sorteio!";
-            else if (duplicado.Email === email) msgErro = "Este E-mail já foi utilizado em outro cadastro!";
-            else if (duplicado.Telefone === telefone) msgErro = "Este Telefone já está participando do sorteio!";
-            else if (duplicado.ChavePix === chavePix) msgErro = "Esta Chave PIX já está vinculada a outro participante!";
-
+            
+           
+            if (duplicado.cpf === cpf || duplicado.CPF === cpf) msgErro = "Este CPF já está cadastrado no sorteio!";
+            else if (duplicado.email === email || duplicado.Email === email) msgErro = "Este E-mail já foi utilizado em outro cadastro!";
+            else if (duplicado.telefone === telefone || duplicado.Telefone === telefone) msgErro = "Este Telefone já está participando do sorteio!";
+            else if (duplicado.chavepix === chavePix || duplicado.ChavePix === chavePix) msgErro = "Esta Chave PIX já está vinculada a outro participante!";
+            
             return res.status(400).json({ sucesso: false, mensagem: msgErro });
         }
-
-        /*===============================================================
-        
-         SE PASSOU PELA VALIDAÇÃO, GERA O NÚMERO E SALVA
-
-         =============================================================== */
-
 
         let numeroSorte;
         let numeroUnico = false;
 
-
         while (!numeroUnico) {
             numeroSorte = Math.floor(1000 + Math.random() * 99999);
-
-            const checkSorte = await pool.request()
-                .input('NumSorte', sql.Int, numeroSorte)
-                .query(`SELECT TOP 1 NumeroSorte FROM Participantes WHERE NumeroSorte = @NumSorte`);
-
-            if (checkSorte.recordset.length === 0) {
-                numeroUnico = true;
-            }
+            const checkSorte = await pool.query(`SELECT NumeroSorte FROM Participantes WHERE NumeroSorte = $1 LIMIT 1`, [numeroSorte]);
+            if (checkSorte.rows.length === 0) numeroUnico = true;
         }
 
-        await pool.request()
-            .input('NomeCompleto', sql.VarChar, nomeCompleto)
-            .input('CPF', sql.VarChar, cpf)
-            .input('Cidade', sql.VarChar, cidade)
-            .input('Telefone', sql.VarChar, telefone)
-            .input('Email', sql.VarChar, email)
-            .input('Instagram', sql.VarChar, instagram)
-            .input('TipoPix', sql.VarChar, tipoPix)
-            .input('ChavePix', sql.VarChar, chavePix)
-            .input('NumeroSorte', sql.Int, numeroSorte)
-            .query(`
-                INSERT INTO Participantes 
-                (NomeCompleto, CPF, Cidade, Telefone, Email, Instagram, TipoPix, ChavePix, NumeroSorte)
-                VALUES 
-                (@NomeCompleto, @CPF, @Cidade, @Telefone, @Email, @Instagram, @TipoPix, @ChavePix, @NumeroSorte)
-            `);
+        await pool.query(`
+            INSERT INTO Participantes (NomeCompleto, CPF, Cidade, Telefone, Email, Instagram, TipoPix, ChavePix, NumeroSorte)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `, [nomeCompleto, cpf, cidade, telefone, email, instagram, tipoPix, chavePix, numeroSorte]);
 
         try {
-            
             const primeiroNome = nomeCompleto.trim().split(" ")[0];
-
-            
             const telefoneLimpo = telefone.replace(/\D/g, '');
-
-            
             const telefoneParaEnvio = telefoneLimpo.startsWith("55") ? telefoneLimpo : "55" + telefoneLimpo;
 
-           const msgRecibo = `✅ Cadastro concluído!\n\nGuarde seu número da sorte:\n\n🎟️ *[ ${numeroSorte} ]* 🎟️\n\nBoa sorte, *${primeiroNome}*!`;
-
-          
+            const msgRecibo = `✅ Cadastro concluído!\n\nGuarde seu número da sorte:\n\n🎟️ *[ ${numeroSorte} ]* 🎟️\n\nBoa sorte, *${primeiroNome}*!`;
             enviarMensagemEvolution(telefoneParaEnvio, msgRecibo);
-
         } catch (erroZap) {
             console.error('Aviso: Falha ao enviar o recibo automático pelo Zap:', erroZap);
         }
         
-
-        res.status(201).json({
-            sucesso: true,
-            numeroSorte: numeroSorte,
-            mensagem: 'Cadastro realizado com sucesso!'
-        });
+        res.status(201).json({ sucesso: true, numeroSorte: numeroSorte, mensagem: 'Cadastro realizado com sucesso!' });
 
     } catch (erro) {
         console.error(' Erro ao salvar cadastro:', erro);
         res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
     }
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`▶️ Servidor iniciado! Escutando na porta ${PORT}`);
 });
 
 /* =====================================================================================
@@ -192,36 +133,30 @@ app.post('/api/validar', async (req, res) => {
     try {
         const { cpf, telefone, email, chavePix } = req.body;
 
+        if (cpf && !validarCPFMatematico(cpf)) return res.json({ duplicado: true, campo: 'cpf', mensagem: 'O CPF fornecido é inválido!' });
+        if (telefone && !validarTelefoneReal(telefone)) return res.json({ duplicado: true, campo: 'telefone', mensagem: 'Formato de telefone inválido!' });
 
-        if (cpf && !validarCPFMatematico(cpf)) {
-            return res.json({ duplicado: true, campo: 'cpf', mensagem: 'O CPF fornecido é inválido!' });
-        }
-        if (telefone && !validarTelefoneReal(telefone)) {
-            return res.json({ duplicado: true, campo: 'telefone', mensagem: 'Formato de telefone inválido!' });
-        }
-
-        const pool = await poolPromise;
-
-        let query = `SELECT TOP 1 CPF, Telefone, Email, ChavePix FROM Participantes WHERE `;
+        let query = `SELECT CPF, Telefone, Email, ChavePix FROM Participantes WHERE `;
         let conditions = [];
-        const request = pool.request();
+        let values = [];
+        let counter = 1;
 
-        if (cpf) { conditions.push(`CPF = @CPF`); request.input('CPF', sql.VarChar, cpf); }
-        if (telefone) { conditions.push(`Telefone = @Telefone`); request.input('Telefone', sql.VarChar, telefone); }
-        if (email) { conditions.push(`Email = @Email`); request.input('Email', sql.VarChar, email); }
-        if (chavePix) { conditions.push(`ChavePix = @ChavePix`); request.input('ChavePix', sql.VarChar, chavePix); }
+        if (cpf) { conditions.push(`CPF = $${counter++}`); values.push(cpf); }
+        if (telefone) { conditions.push(`Telefone = $${counter++}`); values.push(telefone); }
+        if (email) { conditions.push(`Email = $${counter++}`); values.push(email); }
+        if (chavePix) { conditions.push(`ChavePix = $${counter++}`); values.push(chavePix); }
 
         if (conditions.length === 0) return res.json({ duplicado: false });
 
-        query += conditions.join(' OR ');
-        const check = await request.query(query);
+        query += conditions.join(' OR ') + ' LIMIT 1';
+        const check = await pool.query(query, values);
 
-        if (check.recordset.length > 0) {
-            const row = check.recordset[0];
-            if (cpf && row.CPF === cpf) return res.json({ duplicado: true, campo: 'cpf', mensagem: 'Este CPF já está cadastrado no sorteio!' });
-            if (telefone && row.Telefone === telefone) return res.json({ duplicado: true, campo: 'telefone', mensagem: 'Este Telefone já está participando!' });
-            if (email && row.Email === email) return res.json({ duplicado: true, campo: 'email', mensagem: 'Este E-mail já foi utilizado em outro cadastro!' });
-            if (chavePix && row.ChavePix === chavePix) return res.json({ duplicado: true, campo: 'chavePix', mensagem: 'Esta Chave PIX já está vinculada!' });
+        if (check.rows.length > 0) {
+            const row = check.rows[0];
+            if (cpf && (row.cpf === cpf || row.CPF === cpf)) return res.json({ duplicado: true, campo: 'cpf', mensagem: 'Este CPF já está cadastrado no sorteio!' });
+            if (telefone && (row.telefone === telefone || row.Telefone === telefone)) return res.json({ duplicado: true, campo: 'telefone', mensagem: 'Este Telefone já está participando!' });
+            if (email && (row.email === email || row.Email === email)) return res.json({ duplicado: true, campo: 'email', mensagem: 'Este E-mail já foi utilizado em outro cadastro!' });
+            if (chavePix && (row.chavepix === chavePix || row.ChavePix === chavePix)) return res.json({ duplicado: true, campo: 'chavePix', mensagem: 'Esta Chave PIX já está vinculada!' });
         }
 
         res.json({ duplicado: false });
@@ -233,55 +168,33 @@ app.post('/api/validar', async (req, res) => {
 
 /* =====================================================================
 
-   ROTA: GERA CÓDIGO DE WHATSAPP E SALVA NA TABELA TEMPORÁRIA
+   ROTA: GERA CÓDIGO DE WHATSAPP E FAZ REENVIO AUTOMÁTICO
 
 ====================================================================*/
 
-
 app.post('/api/gerar-codigo', async (req, res) => {
     try {
-
         const { telefone, isReenvio } = req.body;
+        if (!telefone) return res.status(400).json({ sucesso: false, mensagem: "Telefone não informado." });
 
-        if (!telefone) {
-            return res.status(400).json({ sucesso: false, mensagem: "Telefone não informado." });
-        }
-
-        const pool = await poolPromise;
-
-        const checkParticipante = await pool.request()
-            .input('TelefoneCheck', sql.VarChar, telefone)
-            .query(`SELECT TOP 1 Telefone FROM Participantes WHERE Telefone = @TelefoneCheck`);
-
-        if (checkParticipante.recordset.length > 0) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Este WhatsApp já concluiu o cadastro no sorteio!"
-            });
+        const checkParticipante = await pool.query(`SELECT Telefone FROM Participantes WHERE Telefone = $1 LIMIT 1`, [telefone]);
+        if (checkParticipante.rows.length > 0) {
+            return res.status(400).json({ sucesso: false, mensagem: "Este WhatsApp já concluiu o cadastro no sorteio!" });
         }
 
         const telefoneLimpo = telefone.replace(/\D/g, '');
         const codigo = Math.floor(1000 + Math.random() * 9000).toString();
 
-        await pool.request()
-            .input('Telefone', sql.VarChar, telefoneLimpo)
-            .input('Codigo', sql.VarChar, codigo)
-            .query(`
-                DELETE FROM Verificacoes_WhatsApp WHERE Telefone = @Telefone;
-                
-                INSERT INTO Verificacoes_WhatsApp (Telefone, Codigo)
-                VALUES (@Telefone, @Codigo);
-            `);
+        await pool.query(`DELETE FROM Verificacoes_WhatsApp WHERE Telefone = $1`, [telefoneLimpo]);
+        await pool.query(`INSERT INTO Verificacoes_WhatsApp (Telefone, Codigo) VALUES ($1, $2)`, [telefoneLimpo, codigo]);
 
         if (isReenvio) {
             const telefoneParaEnvio = telefoneLimpo.startsWith("55") ? telefoneLimpo : "55" + telefoneLimpo;
             const msgReenvio = `Seu novo código de verificação é:\n\n🔑 *${codigo}*\n\nVolte ao site e digite este código.`;
-            
             enviarMensagemEvolution(telefoneParaEnvio, msgReenvio).catch(err => console.error("Erro no reenvio automático:", err));
         }
 
         res.json({ sucesso: true, mensagem: "Código gerado com sucesso." });
-
     } catch (erro) {
         console.error(' Erro ao gerar código WhatsApp:', erro);
         res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
@@ -294,39 +207,26 @@ app.post('/api/gerar-codigo', async (req, res) => {
 
 ====================================================================*/
 
-
 app.post('/api/conferir-codigo', async (req, res) => {
     try {
         const { telefone, codigo } = req.body;
-
-        if (!telefone || !codigo) {
-            return res.status(400).json({ sucesso: false, mensagem: "Dados incompletos." });
-        }
+        if (!telefone || !codigo) return res.status(400).json({ sucesso: false, mensagem: "Dados incompletos." });
 
         const telefoneLimpo = telefone.replace(/\D/g, '');
-        const pool = await poolPromise;
 
-        const busca = await pool.request()
-            .input('Telefone', sql.VarChar, telefoneLimpo)
-            .input('Codigo', sql.VarChar, codigo)
-            .query(`
-                SELECT TOP 1 * FROM Verificacoes_WhatsApp 
-                WHERE Telefone = @Telefone 
-                AND Codigo = @Codigo
-                AND DataCriacao >= DATEADD(second, -90, GETDATE())
-                ORDER BY DataCriacao DESC
-            `);
+        const busca = await pool.query(`
+            SELECT * FROM Verificacoes_WhatsApp 
+            WHERE Telefone = $1 AND Codigo = $2 
+            AND DataCriacao >= NOW() - INTERVAL '90 seconds'
+            ORDER BY DataCriacao DESC LIMIT 1
+        `, [telefoneLimpo, codigo]);
 
-        if (busca.recordset.length > 0) {
-            await pool.request()
-                .input('Telefone', sql.VarChar, telefoneLimpo)
-                .query(`DELETE FROM Verificacoes_WhatsApp WHERE Telefone = @Telefone`);
-
+        if (busca.rows.length > 0) {
+            await pool.query(`DELETE FROM Verificacoes_WhatsApp WHERE Telefone = $1`, [telefoneLimpo]);
             res.json({ sucesso: true, mensagem: "Código validado com sucesso!" });
         } else {
             res.status(400).json({ sucesso: false, mensagem: "Código incorreto. Tente novamente!" });
         }
-
     } catch (erro) {
         console.error('Erro ao conferir código WhatsApp:', erro);
         res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
@@ -336,8 +236,9 @@ app.post('/api/conferir-codigo', async (req, res) => {
 /* =====================================================================
 
     FUNÇÃO PARA ENVIAR MENSAGEM PELA EVOLUTION API 
-
+    
 ==============================================================================*/
+
 
 const EVOLUTION_URL = "http://localhost:8080";
 const EVOLUTION_INSTANCIA = "RoboSorteio";
@@ -346,28 +247,18 @@ const EVOLUTION_API_KEY = "MiguelSenhaGlobal123";
 async function enviarMensagemEvolution(telefone, texto) {
     try {
         const urlEnvio = `${EVOLUTION_URL}/message/sendText/${EVOLUTION_INSTANCIA}`;
-
-        const payload = {
-            number: telefone,
-            textMessage: {
-                text: texto
-            }
-        };
+        const payload = { number: telefone, textMessage: { text: texto } };
 
         const response = await fetch(urlEnvio, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': EVOLUTION_API_KEY
-            },
+            headers: { 'Content-Type': 'application/json', 'apikey': EVOLUTION_API_KEY },
             body: JSON.stringify(payload)
         });
 
         const data = await response.json();
         console.log("Resposta da Evolution:", data);
-
     } catch (erro) {
-        console.error(" Erro na conexão:", erro);
+        console.error(" Erro na conexão com Evolution:", erro);
     }
 }
 
@@ -383,7 +274,6 @@ app.post('/api/webhook/evolution/messages-upsert', async (req, res) => {
 
     try {
         const payload = req.body;
-
         if (payload.event === "messages.upsert") {
             const msgData = payload.data;
             const telefoneComSufixo = msgData.key.remoteJid;
@@ -391,131 +281,75 @@ app.post('/api/webhook/evolution/messages-upsert', async (req, res) => {
             if (telefoneComSufixo.includes("@g.us") || msgData.key.fromMe) return;
 
             let textoMensagem = "";
-            if (msgData.message?.conversation) {
-                textoMensagem = msgData.message.conversation;
-            } else if (msgData.message?.extendedTextMessage) {
-                textoMensagem = msgData.message.extendedTextMessage.text;
-            }
+            if (msgData.message?.conversation) textoMensagem = msgData.message.conversation;
+            else if (msgData.message?.extendedTextMessage) textoMensagem = msgData.message.extendedTextMessage.text;
 
             const msgEmMinusculo = textoMensagem.toLowerCase().trim();
 
-            /* ======================================================================
-
-                1. GATILHO: VALIDAR NÚMERO
-
-             ======================================================================*/
-
+           
             if (msgEmMinusculo.includes("validar meu número")) {
-
                 const telefoneRealFull = telefoneComSufixo.replace("@s.whatsapp.net", "");
                 const telefoneCom55 = telefoneRealFull.startsWith("55") ? telefoneRealFull : "55" + telefoneRealFull;
                 const telefoneSem55 = telefoneRealFull.startsWith("55") ? telefoneRealFull.slice(2) : telefoneRealFull;
 
-                const pool = await poolPromise;
-                const busca = await pool.request()
-                    .input('Tel1', sql.VarChar, telefoneCom55)
-                    .input('Tel2', sql.VarChar, telefoneSem55)
-                    .query(`
-                        SELECT TOP 1 Codigo 
-                        FROM Verificacoes_WhatsApp 
-                        WHERE (Telefone = @Tel1 OR Telefone = @Tel2)
-                        AND DataCriacao >= DATEADD(second, -60, GETDATE()) 
-                        ORDER BY DataCriacao DESC
-                    `);
+                const busca = await pool.query(`
+                    SELECT Codigo FROM Verificacoes_WhatsApp 
+                    WHERE (Telefone = $1 OR Telefone = $2)
+                    AND DataCriacao >= NOW() - INTERVAL '60 seconds' 
+                    ORDER BY DataCriacao DESC LIMIT 1
+                `, [telefoneCom55, telefoneSem55]);
 
-                if (busca.recordset.length > 0) {
-                    const codigoGerado = busca.recordset[0].Codigo;
-                    
-                    const respostaZap = `Seu código de verificação é:\n\n🔑 *${codigoGerado}*\n\nVolte ao site e digite este código.`;
-                    
+                if (busca.rows.length > 0) {
+                    const respostaZap = `Seu código de verificação é:\n\n🔑 *${busca.rows[0].codigo || busca.rows[0].Codigo}*\n\nVolte ao site e digite este código.`;
                     await enviarMensagemEvolution(telefoneRealFull, respostaZap);
                 } else {
-                    console.log(`Tentativa bloqueada! Número não está no banco: ${telefoneRealFull}`);
-                    
                     const msgErroZap = `Não foi possível gerar o código.\n\nO número digitado no site é diferente deste WhatsApp ou o tempo de 60 segundos acabou.\n\nVolte ao site e tente novamente.`;
-                    
                     await enviarMensagemEvolution(telefoneRealFull, msgErroZap);
                 }
             }
 
-            /* ======================================================================
-
-                2. GATILHO: MEU NÚMERO DA SORTE
-
-             ====================================================================== */
+          
             else if (msgEmMinusculo.includes("meu numero da sorte") || msgEmMinusculo.includes("meu número da sorte")) {
-
                 const telefoneRealFull = telefoneComSufixo.replace("@s.whatsapp.net", "");
                 const telefoneSem55 = telefoneRealFull.startsWith("55") ? telefoneRealFull.slice(2) : telefoneRealFull;
 
-                const pool = await poolPromise;
-                const buscaParticipante = await pool.request()
-                    .input('TelBuscar', sql.VarChar, telefoneSem55)
-                    .query(`
-                        SELECT TOP 1 NomeCompleto, NumeroSorte 
-                        FROM Participantes 
-                        WHERE REPLACE(REPLACE(REPLACE(REPLACE(Telefone, '(', ''), ')', ''), '-', ''), ' ', '') = @TelBuscar
-                    `);
+                const buscaParticipante = await pool.query(`
+                    SELECT NomeCompleto, NumeroSorte FROM Participantes 
+                    WHERE REPLACE(REPLACE(REPLACE(REPLACE(Telefone, '(', ''), ')', ''), '-', ''), ' ', '') = $1
+                    LIMIT 1
+                `, [telefoneSem55]);
 
-                if (buscaParticipante.recordset.length > 0) {
-                    const dados = buscaParticipante.recordset[0];
-                    
-                    const msgRecuperacao = `Guarde seu número da sorte:\n\n🎟️ *[ ${dados.NumeroSorte} ]* 🎟️\n\nBoa sorte!`;
-                    
+                if (buscaParticipante.rows.length > 0) {
+                    const dados = buscaParticipante.rows[0];
+                    const numSorte = dados.numerosorte || dados.NumeroSorte;
+                    const msgRecuperacao = `Guarde seu número da sorte:\n\n🎟️ *[ ${numSorte} ]* 🎟️\n\nBoa sorte!`;
                     await enviarMensagemEvolution(telefoneRealFull, msgRecuperacao);
                 } else {
                     const msgNaoEncontrado = `❌ *Não encontrado*\n\nNenhum cadastro concluído para este número.\n\nVolte ao site e finalize seu cadastro para participar do sorteio.`;
-                    
                     await enviarMensagemEvolution(telefoneRealFull, msgNaoEncontrado);
                 }
             }
 
-            /* ======================================================================
-
-                3. GATILHO: MENU DE AJUDA
-
-             ======================================================================*/
+           
             else if (msgEmMinusculo === "help" || msgEmMinusculo === "ajuda" || msgEmMinusculo === "menu") {
                 const telefoneRealFull = telefoneComSufixo.replace("@s.whatsapp.net", "");
-
                 const msgAjuda = `📋 *Menu do Sorteio*\n\nCopie e envie uma das frases abaixo para mim:\n\n👉 *Validar meu número*\n(Para receber seu código de acesso)\n\n👉 *Meu numero da sorte*\n(Para ver o seu número do sorteio)`;
-
                 await enviarMensagemEvolution(telefoneRealFull, msgAjuda);
             }
 
-            /* ======================================================================
-
-                4. GATILHO: QUALQUER OUTRA MENSAGEM
-
-             ======================================================================*/
+            
             else {
                 if (msgEmMinusculo.length > 0) {
                     const telefoneRealFull = telefoneComSufixo.replace("@s.whatsapp.net", "");
-
                     const msgNaoReconhecida = `Mensagem não reconhecida.\n\nDigite a palavra abaixo para ver as opções:\n\n*AJUDA*`;
-
                     await enviarMensagemEvolution(telefoneRealFull, msgNaoReconhecida);
                 }
             }
-
         }
     } catch (erro) {
         console.error("Erro no processamento do webhook:", erro);
     }
 });
-
-
-
-
-
-
-/* =====================================================================
-
-   ROTA: Painel Admin
-
-====================================================================*/
-
-
 
 /* =====================================================================
 
@@ -523,87 +357,90 @@ app.post('/api/webhook/evolution/messages-upsert', async (req, res) => {
 
 ====================================================================*/
 
+
 app.get('/api/participantes', async (req, res) => {
     try {
-        const pool = await poolPromise;
-        
-
-        const busca = await pool.request().query(`
+        const busca = await pool.query(`
             SELECT Id, NomeCompleto, CPF, Cidade, Telefone, Email, Instagram, TipoPix, ChavePix, NumeroSorte 
             FROM Participantes 
             ORDER BY NomeCompleto ASC
         `);
-
-        res.status(200).json({
-            sucesso: true,
-            participantes: busca.recordset
-        });
-
+        res.status(200).json({ sucesso: true, participantes: busca.rows });
     } catch (erro) {
         console.error('Erro ao buscar lista de participantes:', erro);
         res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor ao buscar participantes.' });
     }
 });
+
 /* =====================================================================
 
-   ROTA: SALVAR GANHADOR (POST)
-
+   ROTA: SALVAR GANHADOR (POST) E ENVIAR MENSAGEM NO ZAP
+   
 ====================================================================*/
+
 
 app.post('/api/ganhadores', async (req, res) => {
     try {
         const { participante_id, nome, numero_sorte } = req.body;
 
-        const pool = await poolPromise;
-        const request = pool.request();
-       
-        request.input('participanteId', sql.Int, participante_id);
-        request.input('nomeCompleto', sql.VarChar(150), nome);
-        request.input('numeroSorte', sql.Int, numero_sorte);
+        const verificacao = await pool.query(`SELECT Id FROM Ganhadores WHERE ParticipanteId = $1 LIMIT 1`, [participante_id]);
+        if (verificacao.rows.length > 0) {
+            return res.status(400).json({ sucesso: false, mensagem: 'Participante já foi sorteado!' });
+        }
 
-        await request.query(`
+        await pool.query(`
             INSERT INTO Ganhadores (ParticipanteId, NomeCompleto, NumeroSorte)
-            VALUES (@participanteId, @nomeCompleto, @numeroSorte)
-        `);
+            VALUES ($1, $2, $3)
+        `, [participante_id, nome, numero_sorte]);
 
-        res.json({ sucesso: true, mensagem: 'Ganhador salvo no banco com sucesso!' });
+        const buscaTelefone = await pool.query(`SELECT Telefone FROM Participantes WHERE Id = $1 LIMIT 1`, [participante_id]);
+
+        if (buscaTelefone.rows.length > 0) {
+            const telefoneDB = buscaTelefone.rows[0].telefone || buscaTelefone.rows[0].Telefone;
+            
+            if (telefoneDB) {
+                const primeiroNome = nome.trim().split(" ")[0];
+                const telefoneLimpo = telefoneDB.replace(/\D/g, '');
+                const telefoneParaEnvio = telefoneLimpo.startsWith("55") ? telefoneLimpo : "55" + telefoneLimpo;
+
+                const msgGanhador = `🏆 *VOCÊ GANHOU!* 🏆\n\nOlá, *${primeiroNome}*! O seu número da sorte ( *${numero_sorte}* ) acabou de ser sorteado no nosso sistema.\n\nParabéns! 🎉 Compareça ao nosso local de atendimento para retirar o seu prêmio.\n\n*Equipe Netico*`;
+                enviarMensagemEvolution(telefoneParaEnvio, msgGanhador).catch(err => console.error("Erro no envio do prêmio:", err));
+            }
+        }
+
+        res.json({ sucesso: true, mensagem: 'Ganhador salvo e notificado com sucesso!' });
     } catch (erro) {
         console.error('Erro ao salvar ganhador:', erro);
         res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
     }
 });
 
-
 /* =====================================================================
 
    ROTA: BUSCAR GANHADORES (GET)
 
 ====================================================================*/
+
+
 app.get('/api/ganhadores', async (req, res) => {
     try {
-        const pool = await poolPromise;
-        const request = pool.request();
-        
-        const resultado = await request.query(`
+        const resultado = await pool.query(`
             SELECT 
-                g.Id as id_ganhador,
-                p.Id as id, 
-                g.NomeCompleto,
-                g.NumeroSorte,
-                g.DataSorteio,
-                p.Cidade,
-                p.Telefone,
-                p.Instagram,
-                p.TipoPix,
-                p.ChavePix
+                g.Id as id_ganhador, p.Id as id, g.NomeCompleto, g.NumeroSorte, g.DataSorteio,
+                p.Cidade, p.Telefone, p.Instagram, p.TipoPix, p.ChavePix
             FROM Ganhadores g
             INNER JOIN Participantes p ON g.ParticipanteId = p.Id
             ORDER BY g.DataSorteio ASC 
         `);
 
-        res.json({ sucesso: true, ganhadores: resultado.recordset });
+        res.json({ sucesso: true, ganhadores: resultado.rows });
     } catch (erro) {
         console.error('Erro ao buscar a lista de ganhadores:', erro);
         res.status(500).json({ sucesso: false, mensagem: 'Erro interno no servidor.' });
     }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`▶️ Servidor iniciado! Escutando na porta ${PORT}`);
 });

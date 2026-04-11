@@ -41,8 +41,8 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.507);
 }
 
-.ciaxa-titulo {
-    width: 50%;
+.caixa-titulo {
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -78,7 +78,7 @@ body {
 }
 
 .menu-acoes {
-    width: 50%;
+    width: 60%;
     display: flex;
     justify-content: flex-end;
     align-items: center;

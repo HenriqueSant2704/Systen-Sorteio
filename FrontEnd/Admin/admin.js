@@ -1,5 +1,7 @@
 /* =====================================================================
+
    VARIÁVEIS GLOBAIS E ESTADO DA TELA
+   
 ====================================================================*/
 
 let participantesGlobais = [];
@@ -16,7 +18,9 @@ const inputBusca = document.getElementById('inputBusca');
 const btnSortear = document.querySelector('.sortear');
 
 /* =====================================================================
+
    ROTA: BUSCAR DADOS DO SERVIDOR (Participantes e Ganhadores)
+
 ====================================================================*/
 
 async function carregarDados() {
@@ -73,7 +77,9 @@ function atualizarContadorTopo() {
 }
 
 /* =====================================================================
+
    LÓGICA DE INVERTER A TELA E PESQUISA (EVENTOS DE TELA)
+
 ====================================================================*/
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -134,7 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* =====================================================================
+
    LÓGICA DO MODAL DETALHES DE PARTICIPANTES (Olhinho)
+
 ====================================================================*/
 
 const modal = document.getElementById('modalParticipante');
@@ -155,7 +163,6 @@ document.addEventListener('click', function (event) {
     if (botaoVer) {
         const identificador = botaoVer.getAttribute('data-id');
 
-        // Usa as listas filtradas para garantir que encontra o card correto da tela
         const listaBusca = exibindoGanhadores ? ganhadoresFiltrados : participantesFiltrados;
 
         const participante = listaBusca.find(p =>
@@ -184,7 +191,9 @@ document.addEventListener('click', function (event) {
 });
 
 /* =====================================================================
+
    ATUALIZAÇÃO SILENCIOSA (POLLING) - 5 SEGUNDOS
+
 ====================================================================*/
 
 setInterval(() => {
@@ -245,12 +254,13 @@ if(btnSortear) {
             Sorteando...
         `;
 
-        setTimeout(async () => {
+       setTimeout(async () => {
             const indiceSorteado = Math.floor(Math.random() * participantesElegiveis.length);
             const ganhador = participantesElegiveis[indiceSorteado];
 
             try {
-                await fetch('http://localhost:3000/api/ganhadores', {
+                
+                const resposta = await fetch('http://localhost:3000/api/ganhadores', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -259,27 +269,36 @@ if(btnSortear) {
                         nome: ganhador.NomeCompleto
                     })
                 });
+
+                if (!resposta.ok) throw new Error("Servidor não respondeu com sucesso.");
+
                 console.log("Ganhador salvo com segurança no banco!");
                 carregarDados();
+
+                document.getElementById('vencedorNome').textContent = ganhador.NomeCompleto;
+                document.getElementById('vencedorTicket').textContent = ganhador.NumeroSorte;
+                document.getElementById('vencedorCidade').textContent = ganhador.Cidade || "Não informada";
+
+                let telefoneProtegido = ganhador.Telefone || "---";
+                if (telefoneProtegido !== "---" && telefoneProtegido.length >= 14) {
+                    telefoneProtegido = telefoneProtegido.replace(/(\d{3})-(\d{2})/, '***-**');
+                }
+                document.getElementById('vencedorTelefone').textContent = telefoneProtegido;
+
+                btnSortear.innerHTML = `${iconeTrofeuOriginal} Sortear Ganhador`;
+                btnSortear.classList.remove('botao-desativado');
+
+                abrirModalVencedor();
+
             } catch (erro) {
-                console.error("Erro ao salvar no banco, mas o sorteio continua válido:", erro);
+               
+                console.error("Erro CRÍTICO ao salvar no banco:", erro);
+                alert("⚠️ ATENÇÃO: Falha de conexão com o servidor! O sorteio foi cancelado por segurança. Verifique a internet e tente sortear novamente.");
+                
+            
+                btnSortear.innerHTML = `${iconeTrofeuOriginal} Sortear Ganhador`;
+                btnSortear.classList.remove('botao-desativado');
             }
-
-            document.getElementById('vencedorNome').textContent = ganhador.NomeCompleto;
-            document.getElementById('vencedorTicket').textContent = ganhador.NumeroSorte;
-            document.getElementById('vencedorCidade').textContent = ganhador.Cidade || "Não informada";
-
-            let telefoneProtegido = ganhador.Telefone || "---";
-            if (telefoneProtegido !== "---" && telefoneProtegido.length >= 14) {
-                telefoneProtegido = telefoneProtegido.replace(/(\d{3})-(\d{2})/, '***-**');
-            }
-            document.getElementById('vencedorTelefone').textContent = telefoneProtegido;
-
-            btnSortear.innerHTML = `${iconeTrofeuOriginal} Sortear Ganhador`;
-            btnSortear.classList.remove('botao-desativado');
-
-            abrirModalVencedor();
-
         }, 3000);
     });
 }
