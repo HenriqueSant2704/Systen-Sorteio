@@ -1,7 +1,7 @@
 /* =====================================================================
 
    VARIÁVEIS GLOBAIS E ESTADO DA TELA
-   
+
 ====================================================================*/
 
 let participantesGlobais = [];
@@ -25,7 +25,7 @@ const btnSortear = document.querySelector('.sortear');
 
 async function carregarDados() {
     try {
-        const resPart = await fetch('http://localhost:3000/api/participantes');
+        const resPart = await fetch('https://systen-sorteio-production.up.railway.app/api/participantes');
         const dadosPart = await resPart.json();
         if (dadosPart.sucesso) {
             participantesGlobais = dadosPart.participantes;
@@ -35,7 +35,7 @@ async function carregarDados() {
         }
 
         try {
-            const resGanh = await fetch('http://localhost:3000/api/ganhadores');
+            const resGanh = await fetch('https://systen-sorteio-production.up.railway.app/api/ganhadores');
             const dadosGanh = await resGanh.json();
             if (dadosGanh.sucesso) {
                 ganhadoresGlobais = dadosGanh.ganhadores || [];
@@ -168,23 +168,23 @@ document.addEventListener('click', function (event) {
         const participante = listaBusca.find(p =>
             p.id == identificador ||
             p._id == identificador ||
-            p.NumeroSorte == identificador ||
+            p.numerosorte == identificador ||
             p.numero_sorte == identificador
         );
 
         if (participante) {
-            document.getElementById('modAvatar').textContent = pegarIniciais(participante.NomeCompleto || participante.nome);
-            document.getElementById('modNome').textContent = participante.NomeCompleto || participante.nome || "Não informado";
-            document.getElementById('modTicket').textContent = participante.NumeroSorte || participante.numero_sorte || "---";
+            document.getElementById('modAvatar').textContent = pegarIniciais(participante.nomecompleto || participante.nome);
+            document.getElementById('modNome').textContent = participante.nomecompleto || participante.nome || "Não informado";
+            document.getElementById('modTicket').textContent = participante.numerosorte || participante.numero_sorte || "---";
 
-            document.getElementById('modCpf').textContent = participante.CPF || participante.Cpf || participante.cpf || "Não informado";
-            document.getElementById('modCidade').textContent = participante.Cidade || participante.cidade || "Não informada";
-            document.getElementById('modTelefone').textContent = participante.Telefone || participante.telefone || "Não informado";
-            document.getElementById('modInstagram').textContent = participante.Instagram || participante.instagram || "Não informado";
+            document.getElementById('modCpf').textContent = participante.CPF || participante.cpf || participante.cpf || "Não informado";
+            document.getElementById('modCidade').textContent = participante.cidade || participante.cidade || "Não informada";
+            document.getElementById('modTelefone').textContent = participante.telefone || participante.telefone || "Não informado";
+            document.getElementById('modInstagram').textContent = participante.instagram || participante.instagram || "Não informado";
 
-            let tipoPix = participante.TipoPix || participante.tipo_pix;
+            let tipoPix = participante.tipopix || participante.tipo_pix;
             document.getElementById('modTipoPix').textContent = tipoPix ? tipoPix.toUpperCase() : "PIX";
-            document.getElementById('modChavePix').textContent = participante.ChavePix || participante.chave_pix || "Não informada";
+            document.getElementById('modChavePix').textContent = participante.chavepix || participante.chave_pix || "Não informada";
         }
         abrirModal();
     }
@@ -260,13 +260,13 @@ if(btnSortear) {
 
             try {
                 
-                const resposta = await fetch('http://localhost:3000/api/ganhadores', {
+                const resposta = await fetch('https://systen-sorteio-production.up.railway.app/api/ganhadores', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         participante_id: ganhador.Id || ganhador.id,
-                        numero_sorte: ganhador.NumeroSorte,
-                        nome: ganhador.NomeCompleto
+                        numero_sorte: ganhador.numerosorte,
+                        nome: ganhador.nomecompleto
                     })
                 });
 
@@ -275,11 +275,11 @@ if(btnSortear) {
                 console.log("Ganhador salvo com segurança no banco!");
                 carregarDados();
 
-                document.getElementById('vencedorNome').textContent = ganhador.NomeCompleto;
-                document.getElementById('vencedorTicket').textContent = ganhador.NumeroSorte;
-                document.getElementById('vencedorCidade').textContent = ganhador.Cidade || "Não informada";
+                document.getElementById('vencedorNome').textContent = ganhador.nomecompleto;
+                document.getElementById('vencedorTicket').textContent = ganhador.numerosorte;
+                document.getElementById('vencedorCidade').textContent = ganhador.cidade || "Não informada";
 
-                let telefoneProtegido = ganhador.Telefone || "---";
+                let telefoneProtegido = ganhador.telefone || "---";
                 if (telefoneProtegido !== "---" && telefoneProtegido.length >= 14) {
                     telefoneProtegido = telefoneProtegido.replace(/(\d{3})-(\d{2})/, '***-**');
                 }
@@ -345,7 +345,7 @@ function renderizarPagina(numeroPagina) {
     `;
 
     itensDaPagina.forEach((item, index) => {
-        const iniciais = pegarIniciais(item.NomeCompleto || item.nome);
+        const iniciais = pegarIniciais(item.nomecompleto || item.nome);
         const classeExtra = exibindoGanhadores ? 'card-ganhador' : '';
 
         let badgeHtml = '';
@@ -366,17 +366,17 @@ function renderizarPagina(numeroPagina) {
                 <div class="card-topo">
                     <div class="avatar">${iniciais}</div>
                     <div class="info-user">
-                        <span class="nome">${item.NomeCompleto || item.nome}</span>
-                        <span class="cidade">${item.Cidade || item.cidade || "Não informada"}</span>
+                        <span class="nome">${item.nomecompleto || item.nome}</span>
+                        <span class="cidade">${item.cidade || item.cidade || "Não informada"}</span>
                     </div>
                 </div>
                 <div class="linha-divisoria"></div>
                 <div class="card-base">
                     <div class="sorte-box">
                         <span class="label">Nº SORTE</span>
-                        <span class="numero">${item.NumeroSorte || item.numero_sorte}</span>
+                        <span class="numero">${item.numerosorte || item.numero_sorte}</span>
                     </div>
-                    <button class="btn-ver" title="Ver detalhes" data-id="${item.id || item._id || item.NumeroSorte || item.numero_sorte}">
+                    <button class="btn-ver" title="Ver detalhes" data-id="${item.id || item._id || item.numerosorte || item.numero_sorte}">
                         ${iconeOlho}
                     </button>
                 </div>

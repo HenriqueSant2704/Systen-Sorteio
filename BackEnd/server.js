@@ -240,7 +240,7 @@ app.post('/api/conferir-codigo', async (req, res) => {
 ==============================================================================*/
 
 
-const EVOLUTION_URL = "http://localhost:8080";
+const EVOLUTION_URL = "https://evolution-api-production-89a7.up.railway.app";
 const EVOLUTION_INSTANCIA = "RoboSorteio";
 const EVOLUTION_API_KEY = "MiguelSenhaGlobal123";
 

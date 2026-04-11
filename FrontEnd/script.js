@@ -289,7 +289,7 @@ async function validarEtapaNoBanco(etapa) {
     }
 
     try {
-        const resposta = await fetch("http://127.0.0.1:3000/api/validar", {
+        const resposta = await fetch("https://systen-sorteio-production.up.railway.app/api/validar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dadosParaValidar)
@@ -484,7 +484,7 @@ async function validarEtapaAtual() {
 
 
         try {
-            const resposta = await fetch("http://127.0.0.1:3000/api/conferir-codigo", {
+            const resposta = await fetch("https://systen-sorteio-production.up.railway.app/api/conferir-codigo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -545,7 +545,7 @@ async function enviarDadosParaBackend() {
 
     try {
 
-        const resposta = await fetch("http://127.0.0.1:3000/api/cadastro", {
+        const resposta = await fetch("https://systen-sorteio-production.up.railway.app/api/cadastro", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -677,17 +677,15 @@ function iniciarTimerReenvio() {
 }
 
 
-
-// 📡 FUNÇÃO PARA CHAMAR O BACKEND (Atualizada para Reenvio Automático)
 async function dispararCodigo(telefone, isReenvio = false) {
     const erroTelefone = document.getElementById("erroTelefone");
     const telefoneInput = document.getElementById("telefoneInput");
 
     try {
-        const resposta = await fetch("http://127.0.0.1:3000/api/gerar-codigo", {
+        const resposta = await fetch("https://systen-sorteio-production.up.railway.app/api/gerar-codigo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            // 👇 AQUI: Agora enviamos a informação se é reenvio ou não para o back-end!
+            
             body: JSON.stringify({ telefone: telefone, isReenvio: isReenvio })
         });
 
