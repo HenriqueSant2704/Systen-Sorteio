@@ -652,7 +652,7 @@ const wrapperCodigo = document.getElementById("wrapperCodigo");
 const labelWhats = document.getElementById("labelWhats");
 const erroTelefone = document.getElementById("erroTelefone");
 
-const NUMERO_DA_EMPRESA = "5517992020369";
+const NUMERO_DA_EMPRESA = "5517991931459";
 
 
 function iniciarTimerReenvio() {
