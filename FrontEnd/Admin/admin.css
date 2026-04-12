@@ -144,12 +144,12 @@ body {
     font-weight: 700;
     color: #ffffff;
     cursor: pointer;
-    background: linear-gradient(135deg, #8b5cf6, #c026d3); 
+    background: linear-gradient(135deg, #8b5cf6, #c026d3);
     box-shadow: 0 6px 20px rgba(192, 38, 211, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .menu-acoes button.sortear:hover {
@@ -200,9 +200,9 @@ body {
 
 .btn-neutro {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.08));
-    border: 1px solid rgba(139, 92, 246, 0.25); 
+    border: 1px solid rgba(139, 92, 246, 0.25);
     color: #cbd5e1;
-    padding: 14px 22px;
+    padding: 15px 22px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
@@ -213,14 +213,14 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    white-space: nowrap; 
-    flex-shrink: 0;      
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn-neutro:hover {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(192, 38, 211, 0.1));
     color: #ffffff;
-    border-color: rgba(168, 85, 247, 0.5); 
+    border-color: rgba(168, 85, 247, 0.5);
     box-shadow: 0 6px 15px rgba(168, 85, 247, 0.15);
     transform: translateY(-2px);
 }
@@ -238,8 +238,8 @@ body {
 }
 
 .card-ganhador {
-    border-color: rgba(234, 179, 8, 0.4); 
-    background: rgba(26, 20, 10, 0.8); 
+    border-color: rgba(234, 179, 8, 0.4);
+    background: rgba(26, 20, 10, 0.8);
 }
 
 .card-ganhador:hover {
@@ -264,13 +264,13 @@ body {
 
 
 .container-lista {
-    width: 80%; 
-    min-height: 500px; 
-    height: auto;      
+    width: 80%;
+    min-height: 500px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     gap: 20px;
     border-radius: 20px;
     padding: 20px 30px;
@@ -417,7 +417,7 @@ div.btn-paginacao {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6021cc, #8c1c9b); 
+    background: linear-gradient(135deg, #6021cc, #8c1c9b);
     color: #ffffff;
     display: flex;
     justify-content: center;
@@ -452,7 +452,7 @@ div.btn-paginacao {
 .linha-divisoria {
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent); 
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
 }
 
 .card-base {
@@ -478,10 +478,10 @@ div.btn-paginacao {
     font-size: 18px;
     font-weight: 800;
     letter-spacing: 1px;
-    background: linear-gradient(to right, #c084fc, #e879f9); 
+    background: linear-gradient(to right, #c084fc, #e879f9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0px 0px 15px rgba(192, 132, 252, 0.3); 
+    text-shadow: 0px 0px 15px rgba(192, 132, 252, 0.3);
 }
 
 .btn-ver {
@@ -512,6 +512,7 @@ div.btn-paginacao {
 .btn-ver:hover svg {
     color: #f5d0fe;
 }
+
 /* =================================================================
 
    ESTILOS DO MODAL DE PARTICIPANTE
@@ -525,7 +526,7 @@ div.btn-paginacao {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); 
+    background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
@@ -543,15 +544,15 @@ div.btn-paginacao {
 
 .modal-content {
     width: 100%;
-    max-width: 520px; 
-    background-color: #121214; 
-    border: 1px solid rgba(139, 92, 246, 0.4); 
+    max-width: 520px;
+    background-color: #121214;
+    border: 1px solid rgba(139, 92, 246, 0.4);
     border-radius: 20px;
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 28px;
-    box-shadow: 0 0 40px rgba(124, 58, 237, 0.2), inset 0 0 20px rgba(124, 58, 237, 0.05); 
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.2), inset 0 0 20px rgba(124, 58, 237, 0.05);
     transform: translateY(20px) scale(0.95);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -618,7 +619,7 @@ div.btn-paginacao {
 }
 
 .btn-fechar:hover svg path {
-    stroke: #ef4444; 
+    stroke: #ef4444;
 }
 
 .modal-body {
@@ -719,7 +720,7 @@ div.btn-paginacao {
     color: #f8fafc;
     font-size: 15px;
     font-weight: 500;
-    font-family: monospace; 
+    font-family: monospace;
 }
 
 /* =================================================================
@@ -731,7 +732,7 @@ div.btn-paginacao {
 .vencedor-content {
     max-width: 450px;
     text-align: center;
-    align-items: center; 
+    align-items: center;
     gap: 30px;
     border-color: rgba(168, 85, 247, 0.5);
     box-shadow: 0 0 50px rgba(124, 58, 237, 0.3), inset 0 0 20px rgba(124, 58, 237, 0.1);
@@ -759,7 +760,7 @@ div.btn-paginacao {
 .icone-trofeu-brilho img {
     width: 40px;
     height: 40px;
-    filter: brightness(0) invert(1); 
+    filter: brightness(0) invert(1);
 }
 
 .titulo-vencedor {
@@ -785,7 +786,7 @@ div.btn-paginacao {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     width: 80%;
 }
 
@@ -845,8 +846,13 @@ div.btn-paginacao {
 
 
 @keyframes girarIcone {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .animar-icone {
@@ -856,7 +862,7 @@ div.btn-paginacao {
 .botao-desativado {
     opacity: 0.7;
     cursor: not-allowed !important;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 /* =================================================================
@@ -867,23 +873,23 @@ div.btn-paginacao {
 
 
 .card-participante {
-    position: relative; 
+    position: relative;
 }
 
 .badge-posicao {
     position: absolute;
     top: 20px;
-    right: 20px; 
+    right: 20px;
     width: 32px;
     height: 32px;
-    border-radius: 8px; 
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 13px;
     font-weight: 800;
     color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 10;
 }
 
@@ -913,4 +919,415 @@ div.btn-paginacao {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #cbd5e1;
+}
+
+
+/*======================================================================
+ 
+    Estilos para telas menores 
+
+===========================================================================*/
+
+
+@media (max-width: 1570px) {
+
+
+    .caixa-titulo {
+        width: 35%;
+    }
+
+
+    .menu-acoes {
+        width: 65%;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+
+}
+
+@media (max-width: 1450px) {
+
+    .menu-acoes button.sortear {
+        padding: 14px 16px;
+    }
+
+}
+
+@media (max-width: 1350px) {
+
+    .menu-acoes button.sortear {
+        padding: 14px 16px;
+    }
+
+    .menu-acoes {
+        width: 68%;
+    }
+
+    .caixa-titulo {
+        width: 32%;
+
+    }
+
+
+    .titulo h1 {
+        font-size: 24px;
+
+    }
+
+    .titulo img {
+        width: 23px;
+        height: 23px;
+    }
+
+
+    .quant-participante span {
+        font-size: 14px;
+    }
+
+    .btn-neutro {
+        padding: 15px 16px;
+
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+
+    .menu-painel {
+        width: 85%;
+
+    }
+
+    .container-lista {
+        width: 85%;
+
+    }
+
+    .paginacao {
+        width: 85%;
+
+    }
+}
+
+
+@media (max-width: 1250px) {
+
+    .menu-acoes button.sortear {
+        padding: 14px 16px;
+    }
+
+    .menu-acoes {
+        width: 69%;
+    }
+
+    .caixa-titulo {
+        width: 31%;
+
+    }
+
+
+    .titulo h1 {
+        font-size: 23px;
+
+    }
+
+    .titulo img {
+        width: 23px;
+        height: 23px;
+    }
+
+
+    .quant-participante span {
+        font-size: 13, 5px;
+    }
+
+    .btn-neutro {
+        padding: 15px 16px;
+
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 1150px) {
+
+    .menu-acoes {
+        width: 69%;
+    }
+
+    .caixa-titulo {
+        width: 31%;
+    }
+
+    .titulo h1 {
+        font-size: 23px;
+    }
+
+    .titulo img {
+        width: 23px;
+        height: 23px;
+    }
+
+    .quant-participante span {
+        font-size: 13.5px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu-acoes button.sortear {
+        font-size: 0;
+        padding: 14px 16px;
+        gap: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu-acoes button.sortear span {
+        display: none;
+    }
+
+
+    .menu-acoes button.sortear img {
+        width: 22px;
+        height: 22px;
+        margin: 0;
+        transform: translateX(3px);
+    }
+}
+
+
+@media (max-width: 1050px) {
+
+    .menu-acoes {
+        width: 65%;
+    }
+
+    .caixa-titulo {
+        width: 35%;
+    }
+
+}
+
+
+@media (max-width: 950px) {
+
+    .menu-acoes {
+        width: 69%;
+    }
+
+    .caixa-titulo {
+        width: 31%;
+    }
+
+    .titulo h1 {
+        font-size: 23px;
+    }
+
+    .titulo img {
+        width: 23px;
+        height: 23px;
+    }
+
+    .quant-participante span {
+        font-size: 13.5px;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu-acoes button.sortear {
+        font-size: 0;
+        padding: 14px 16px;
+        gap: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu-acoes button.sortear span {
+        display: none;
+    }
+
+
+    .menu-acoes button.sortear img {
+        width: 22px;
+        height: 22px;
+        margin: 0;
+        transform: translateX(3px);
+    }
+}
+
+
+
+@media (max-width: 950px) {
+
+
+    .menu-painel,
+    .container-lista,
+    .paginacao {
+        width: 90%;
+        box-sizing: border-box;
+    }
+
+    .menu-painel {
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px;
+        gap: 20px;
+    }
+
+    .caixa-titulo,
+    .menu-acoes {
+        width: 100%;
+    }
+
+    .menu-acoes {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .caixa-input {
+        width: 100%;
+    }
+
+    .menu-acoes button.sortear,
+    .btn-neutro {
+        width: 100%;
+        font-size: 15px;
+        padding: 15px;
+        justify-content: center;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    .menu-acoes button.sortear span,
+    .btn-neutro span {
+        display: inline;
+    }
+
+    .menu-acoes button.sortear img {
+        transform: translateX(0);
+        margin: 0;
+    }
+
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container-lista p {
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 500;
+        margin: 0;
+        letter-spacing: 0.5px;
+        text-align: center;
+    }
+
+    .container-lista span {
+        color: #94a3b8;
+        font-size: 15px;
+        margin: 0;
+        font-weight: 400;
+        text-align: center;
+    }
+}
+
+
+
+@media (max-width: 600px) {
+    .logo {
+        width: 240px;
+    }
+
+    .titulo h1 {
+        font-size: 20px;
+    }
+
+    .quant-participante span {
+        font-size: 13px;
+    }
+
+    .grid-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .paginacao {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .modal-content,
+    .vencedor-content {
+        width: 85%;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    .modal-body {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .info-user-modal .nome {
+        font-size: 18px;
+    }
+
+
+    .icone-trofeu-brilho {
+        width: 60px;
+        height: 60px;
+    }
+
+    .icone-trofeu-brilho img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .nome-vencedor {
+        font-size: 22px;
+    }
+
+    .vencedor-numero-box {
+        width: 95%;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .vencedor-numero-box .numero {
+        font-size: 34px;
+    }
+
+    .container-lista p {
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 500;
+        margin: 0;
+        letter-spacing: 0.5px;
+        text-align: center;
+    }
+
+    .container-lista span {
+        color: #94a3b8;
+        font-size: 15px;
+        margin: 0;
+        font-weight: 400;
+        text-align: center;
+    }
 }

@@ -68,7 +68,7 @@ function atualizarContadorTopo() {
     if (quantParticipanteSpan) {
         if (exibindoGanhadores) {
             const palavra = ganhadoresGlobais.length === ganhadoresFiltrados.length ? "registrados" : "encontrados";
-            quantParticipanteSpan.textContent = `Visualizando o histórico de ${ganhadoresFiltrados.length} ganhadores ${palavra}.`;
+            quantParticipanteSpan.textContent = `Gerencie o histórico de ${ganhadoresFiltrados.length} ganhadores.`;
         } else {
             const palavra = participantesGlobais.length === participantesFiltrados.length ? "cadastrados" : "encontrados";
             quantParticipanteSpan.textContent = `Gerencie os ${participantesFiltrados.length} participantes ${palavra}.`;
