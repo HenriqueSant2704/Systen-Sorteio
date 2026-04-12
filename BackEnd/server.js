@@ -428,7 +428,7 @@ app.get('/api/ganhadores', async (req, res) => {
         const resultado = await pool.query(`
             SELECT 
                 g.Id as id_ganhador, p.Id as id, g.NomeCompleto, g.NumeroSorte, g.DataSorteio,
-                p.Cidade, p.Telefone, p.Instagram, p.TipoPix, p.ChavePix
+                p.CPF, p.Cidade, p.Telefone, p.Instagram, p.TipoPix, p.ChavePix
             FROM Ganhadores g
             INNER JOIN Participantes p ON g.ParticipanteId = p.Id
             ORDER BY g.DataSorteio ASC 
