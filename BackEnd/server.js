@@ -247,7 +247,8 @@ const EVOLUTION_API_KEY = "MiguelSenhaGlobal123";
 async function enviarMensagemEvolution(telefone, texto) {
     try {
         const urlEnvio = `${EVOLUTION_URL}/message/sendText/${EVOLUTION_INSTANCIA}`;
-        const payload = { number: telefone, textMessage: { text: texto } };
+        
+        const payload = { number: telefone, text: texto };
 
         const response = await fetch(urlEnvio, {
             method: 'POST',
@@ -258,7 +259,7 @@ async function enviarMensagemEvolution(telefone, texto) {
         const data = await response.json();
         console.log("Resposta da Evolution:", data);
     } catch (erro) {
-        console.error(" Erro na conexão com Evolution:", erro);
+        console.error("Erro na conexão com Evolution:", erro);
     }
 }
 
